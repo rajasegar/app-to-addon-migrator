@@ -19,6 +19,21 @@ module.exports.builder = function builder(yargs) {
     describe: 'The name of the component folder if it is namespaced within app/helpers',
     type: 'string',
   });
+
+  yargs.option('delete-source', {
+    alias: 'd',
+    demandOption: false,
+    describe: 'Delete source files',
+    type: 'boolean',
+    default: false
+  });
+
+  yargs.option('module-prefix', {
+    alias: 'mp',
+    demandOption: false,
+    describe: 'Specify module-prefix if your addon name is different from its path',
+    type: 'string'
+  });
 };
 
 module.exports.handler = async function handler(options) {

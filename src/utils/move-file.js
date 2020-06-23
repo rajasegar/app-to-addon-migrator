@@ -13,7 +13,6 @@ module.exports = function (options) {
 
   log(sourceFile);
   log(destPath);
-
   if (!dryRun) {
     if (fs.existsSync(sourceFile)) {
       fse

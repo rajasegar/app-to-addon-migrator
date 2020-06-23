@@ -21,8 +21,8 @@ module.exports.builder = function builder(yargs) {
   });
 
   yargs.option('delete-source', {
-    alias: 'd',
-    demandOption: false,
+    alias: 'ds',
+    demandOption: true,
     describe: 'Delete source files',
     type: 'boolean',
     default: false

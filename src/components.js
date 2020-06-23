@@ -44,14 +44,21 @@ module.exports.moveComponent = function () {
       message: 'Dry Run? (default: yes)',
       default: true,
     },
+    {
+      type: 'confirm',
+      name: 'deleteSource',
+      message: 'Delete Source? (default: no)',
+      default: false,
+    },
   ];
 
   inquirer.prompt(componentPrompt).then((answers) => {
-    const { componentName, destination, dryRun } = answers;
+    const { componentName, destination, dryRun, deleteSource } = answers;
     command.handler({
       componentName,
       destination,
       dryRun,
+      deleteSource,
       pods: true,
     });
   });

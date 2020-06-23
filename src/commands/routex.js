@@ -1,5 +1,7 @@
 'use strict';
 
+const AddDefaultOptions = require('../utils/add-default-options');
+
 module.exports.command = 'routex [route-name] [destination]';
 
 module.exports.desc = 'Copy a route and its dependent components from app to addon';
@@ -17,6 +19,8 @@ module.exports.builder = function builder(yargs) {
     describe: 'The name of the route folder if it is namespaced within app/helpers',
     type: 'string',
   });
+
+  AddDefaultOptions(yargs);
 };
 
 module.exports.handler = async function handler(options) {
@@ -29,7 +33,7 @@ module.exports.handler = async function handler(options) {
 
   const copyComponent = require('../utils/copy-component');
 
-  const { routeName, routeFolder, dryRun } = options;
+  const { routeName, routeFolder, dryRun, modulePrefix, deleteSource } = options;
   const templatePath = 'app/templates/helpdesk';
 
   // Moving route.js
@@ -109,6 +113,8 @@ module.exports.handler = async function handler(options) {
             componentName: _componentName,
             // addonName,
             dryRun,
+            modulePrefix,
+            deleteSource
           };
 
           copyComponent(opts);

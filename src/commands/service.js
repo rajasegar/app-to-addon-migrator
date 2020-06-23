@@ -1,5 +1,7 @@
 'use strict';
 
+const AddDefaultOptions = require('../utils/add-default-options');
+
 module.exports.command = 'service [service-name] [destination]';
 module.exports.desc = 'Copy a service from app to addon';
 
@@ -17,6 +19,8 @@ module.exports.builder = function builder(yargs) {
     describe: 'The name of the helper folder if it is namespaced within app/helpers',
     type: 'string',
   });
+
+  AddDefaultOptions(yargs);
 };
 
 module.exports.handler = async function handler(options) {

@@ -1,5 +1,7 @@
 'use strict';
 
+const AddDefaultOptions = require('../utils/add-default-options');
+
 module.exports.command = 'validator [validator-name] [destination]';
 
 module.exports.desc = 'Copy a validator from app to addon';
@@ -18,6 +20,8 @@ module.exports.builder = function builder(yargs) {
     describe: 'The name of the validator folder if it is namespaced within app/validators',
     type: 'string',
   });
+
+  AddDefaultOptions(yargs);
 };
 
 module.exports.handler = async function handler(options) {

@@ -27,7 +27,7 @@ module.exports = function (options) {
       })
       .catch((err) => error(err));
     } else {
-      warning(`WARNING: There are no matching file ${fileName}`);
+      warning(`WARNING: There are no matching files of type ${fileType} with name ${fileName}`);
     }
   }
 

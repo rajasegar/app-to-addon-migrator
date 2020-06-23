@@ -1,5 +1,7 @@
 'use strict';
 
+const AddDefaultOptions = require('../utils/add-default-options');
+
 module.exports.command = 'constant [constant-name] [destination]';
 
 module.exports.desc = 'Copy a constant from app to addon';
@@ -19,35 +21,32 @@ module.exports.builder = function builder(yargs) {
     describe: 'The name of the constant folder if it is namespaced within app/helpers',
     type: 'string',
   });
+
+  AddDefaultOptions(yargs);
 };
 
 module.exports.handler = async function handler(options) {
-  const fse = require('fs-extra');
   const path = require('path');
-  const { log, error, ok } = require('../utils/logging');
+  const MoveFile = require('../utils/move-file');
 
   const constantPath = 'app/constants';
 
-  const { constantName, destination, constantFolder, dryRun } = options;
+  const { constantName, destination, constantFolder, dryRun, deleteSource } = options;
 
   const packagePath = path.join('.', destination) || 'packages/engines';
+
   // Moving constant.js
-  log('Moving constant.js');
-  log('---------------');
   const sourceconstant = constantFolder
     ? `${constantPath}/${constantFolder}/${constantName}.js`
     : `${constantPath}/${constantName}.js`;
   const destconstant = `${packagePath}/addon/constants/${constantName}.js`;
 
-  log(sourceconstant);
-  log(destconstant);
-
-  if (!dryRun) {
-    fse
-      .copy(sourceconstant, destconstant) //eslint-disable-line
-      .then(() => {
-        ok(`Success: constant ${constantName}.js copied`);
-      })
-      .catch((err) => error(err));
-  }
+  MoveFile({
+    deleteSource,
+    fileName: constantName,
+    sourceFile: sourceconstant,
+    destPath: destconstant,
+    fileType: 'Constant',
+    dryRun
+  });
 };

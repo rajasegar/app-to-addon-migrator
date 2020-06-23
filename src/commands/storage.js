@@ -1,5 +1,7 @@
 'use strict';
 
+const AddDefaultOptions = require('../utils/add-default-options');
+
 module.exports.command = 'storage [storage-name] [destination]';
 
 module.exports.desc = 'Copy a storage from app to addon';
@@ -18,6 +20,8 @@ module.exports.builder = function builder(yargs) {
     describe: 'The name of the storage folder if it is namespaced within app/storages',
     type: 'string',
   });
+
+  AddDefaultOptions(yargs);
 };
 
 module.exports.handler = async function handler(options) {

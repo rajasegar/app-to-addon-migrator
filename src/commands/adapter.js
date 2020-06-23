@@ -1,5 +1,7 @@
 'use strict';
 
+const AddDefaultOptions = require('../utils/add-default-options');
+
 module.exports.command = 'adapter [adapter-name] [destination]';
 module.exports.desc = 'Copy an adapter from app to addon';
 
@@ -17,79 +19,62 @@ module.exports.builder = function builder(yargs) {
     describe: 'The name of the helper folder if it is namespaced within app/helpers',
     type: 'string',
   });
+
+  AddDefaultOptions(yargs);
 };
 
 module.exports.handler = async function handler(options) {
-  const fs = require('fs');
-  const fse = require('fs-extra');
   const path = require('path');
-  const { log, error, ok, warning } = require('../utils/logging');
+  const MoveFile = require('../utils/move-file');
+  const CreateAppExport = require('../utils/create-app-export');
 
-  const { adapterName, destination, adapterFolder, dryRun } = options;
+  const { adapterName, destination, adapterFolder, dryRun, deleteSource, modulePrefix } = options;
 
   const adapterPath = 'app/adapters';
   const packagePath = path.join('.', destination) || 'packages/engines';
 
   // Moving adapter.js
-  log('Moving adapter.js');
-  log('---------------');
   const sourceadapter = adapterFolder
     ? `${adapterPath}/${adapterFolder}/${adapterName}.js`
     : `${adapterPath}/${adapterName}.js`;
   const destadapter = `${packagePath}/addon/adapters/${adapterName}.js`;
 
-  log(sourceadapter);
-  log(destadapter);
-
-  if (!dryRun) {
-    fse
-      .copy(sourceadapter, destadapter)
-      .then(() => {
-        ok(`Success: Adapter ${adapterName}.js copied`);
-      })
-      .catch((err) => error(err));
-  }
+  MoveFile({
+    deleteSource,
+    fileName: adapterName,
+    sourceFile: sourceadapter,
+    destPath: destadapter,
+    fileType: 'Adapter',
+    dryRun
+  });
 
   // Moving adapter tests
-  log('\nMoving adapter tests');
-  log('------------------');
   const sourceTest = adapterFolder
     ? `tests/unit/adapters/${adapterFolder}/${adapterName}-test.js`
     : `tests/unit/adapters/${adapterName}-test.js`;
   const destTest = `${packagePath}/tests/unit/adapters/${adapterName}-test.js`;
 
-  log(sourceTest);
-  log(destTest);
-  if (!dryRun) {
-    if (fs.existsSync(sourceTest)) {
-      fse
-        .copy(sourceTest, destTest)
-        .then(() => {
-          ok(`Success: Adapter Test ${adapterName} copied`);
-        })
-        .catch((err) => error(err));
-    } else {
-      warning(`WARNING: There are no unit tests for adapter ${adapterName}`);
-    }
-  }
+  MoveFile({
+    deleteSource,
+    fileName: adapterName,
+    sourceFile: sourceTest,
+    destPath: destTest,
+    fileType: 'Adapter Test',
+    dryRun
+  });
 
   // Create adapter assets to app folder in addon
 
-  log('\nCreating adapter assets in app folder ');
-  log('----------------------------------- ');
-
-  const appadapter = `${packagePath}/app/adapters/${adapterName}.js`;
-  const addonName = path.basename(destination);
-  const adapterBody = `export { default } from '${addonName}/adapters/${adapterName}';`;
-  log(appadapter);
-  if (!dryRun) {
-    fse
-      .outputFile(appadapter, adapterBody)
-      .then(() => {
-        ok(`Success: Adapter ${adapterName}.js created in app`);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }
+  CreateAppExport({
+    fileName: adapterName,
+    fileOptions: {
+      ext: 'js',
+      type: 'adapters'
+    },
+    dryRun,
+    packagePath,
+    destination,
+    modulePrefix,
+    fileType: 'Adapter'
+  });
 };

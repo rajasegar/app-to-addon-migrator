@@ -1,5 +1,7 @@
 'use strict';
 
+const AddDefaultOptions = require('../utils/add-default-options');
+
 module.exports.command = 'component [component-name] [destination]';
 
 module.exports.desc = 'Copy a component from app to addon';
@@ -20,20 +22,7 @@ module.exports.builder = function builder(yargs) {
     type: 'string',
   });
 
-  yargs.option('delete-source', {
-    alias: 'ds',
-    demandOption: true,
-    describe: 'Delete source files',
-    type: 'boolean',
-    default: false
-  });
-
-  yargs.option('module-prefix', {
-    alias: 'mp',
-    demandOption: false,
-    describe: 'Specify module-prefix if your addon name is different from its path',
-    type: 'string'
-  });
+  AddDefaultOptions(yargs);
 };
 
 module.exports.handler = async function handler(options) {

@@ -12,8 +12,7 @@ module.exports = function (options) {
     dryRun,
     fileType,
     packagePath,
-    destination,
-    modulePrefix
+    destination
   } = options;
 
   log(`\nCreating ${fileType} assets in app folder `);
@@ -21,7 +20,7 @@ module.exports = function (options) {
 
   const destPath = `${packagePath}/app/${fileOptions.type}/${fileName}.${fileOptions.ext}`;
   const addonName = path.basename(destination);
-  const fileContent = `export { default } from '${modulePrefix || addonName}/${fileOptions.type}/${fileName}';`;
+  const fileContent = `export { default } from '${addonName}/${fileOptions.type}/${fileName}';`;
   
 
   log(destPath);

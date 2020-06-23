@@ -30,7 +30,7 @@ module.exports.handler = async function handler(options) {
   const CreateAppExport = require('../utils/create-app-export');
 
   const utilPath = 'app/utils';
-  const { utilName, destination, utilFolder, dryRun, deleteSource, modulePrefix } = options;
+  const { utilName, destination, utilFolder, dryRun, deleteSource } = options;
   const packagePath = path.join('.', destination) || 'packages/engines';
 
   // Moving util.js
@@ -74,7 +74,6 @@ module.exports.handler = async function handler(options) {
     dryRun,
     packagePath,
     destination,
-    modulePrefix,
     fileType: 'Util'
   });
 };

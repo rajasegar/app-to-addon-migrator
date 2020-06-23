@@ -13,8 +13,7 @@ module.exports = function (options) {
     destination,
     dryRun,
     pods,
-    deleteSource,
-    modulePrefix
+    deleteSource
   } = options;
   const packagePath = path.join('.', destination) || 'packages/engines';
 
@@ -102,7 +101,6 @@ module.exports = function (options) {
     dryRun,
     packagePath,
     destination,
-    modulePrefix,
     fileType: 'Component'
   });
 };

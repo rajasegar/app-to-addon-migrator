@@ -28,7 +28,7 @@ module.exports.handler = async function handler(options) {
   const path = require('path');
   const MoveFile = require('../utils/move-file');
 
-  const { routeName, destination, routeFolder, dryRun, deleteSource, modulePrefix } = options;
+  const { routeName, destination, routeFolder, dryRun, deleteSource } = options;
 
   const routePath = 'app/routes';
   const templatePath = 'app/templates';
@@ -94,7 +94,6 @@ module.exports.handler = async function handler(options) {
   //   dryRun,
   //   packagePath,
   //   destination,
-  //   modulePrefix,
   //   fileType: 'Route'
   // });
 
@@ -107,7 +106,6 @@ module.exports.handler = async function handler(options) {
   //   dryRun,
   //   packagePath,
   //   destination,
-  //   modulePrefix,
   //   fileType: 'Route Template'
   // });
 
@@ -137,7 +135,6 @@ module.exports.handler = async function handler(options) {
   //   dryRun,
   //   packagePath,
   //   destination,
-  //   modulePrefix,
   //   fileType: 'Controller'
   // });
 

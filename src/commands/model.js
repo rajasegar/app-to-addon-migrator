@@ -31,7 +31,7 @@ module.exports.handler = async function handler(options) {
 
   const modelPath = 'app/models';
 
-  const { modelName, destination, modelFolder, dryRun, modulePrefix, deleteSource } = options;
+  const { modelName, destination, modelFolder, dryRun, deleteSource } = options;
   const packagePath = path.join('.', destination) || 'packages/engines';
 
   // Moving model.js
@@ -74,7 +74,6 @@ module.exports.handler = async function handler(options) {
     dryRun,
     packagePath,
     destination,
-    modulePrefix,
     fileType: 'Model'
   });
 };

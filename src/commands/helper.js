@@ -30,7 +30,7 @@ module.exports.handler = async function handler(options) {
   const CreateAppExport = require('../utils/create-app-export');
 
   const helperPath = 'app/helpers';
-  const { helperName, destination, helperFolder, dryRun, deleteSource, modulePrefix } = options;
+  const { helperName, destination, helperFolder, dryRun, deleteSource } = options;
   const packagePath = path.join('.', destination) || 'packages/engines';
 
   // Moving helper.js
@@ -73,7 +73,6 @@ module.exports.handler = async function handler(options) {
     dryRun,
     packagePath,
     destination,
-    modulePrefix,
     fileType: 'Helper'
   });
 };

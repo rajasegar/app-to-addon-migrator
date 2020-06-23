@@ -28,7 +28,7 @@ module.exports.handler = async function handler(options) {
   const MoveFile = require('../utils/move-file');
   const CreateAppExport = require('../utils/create-app-export');
 
-  const { serviceName, destination, serviceFolder, dryRun, deleteSource, modulePrefix } = options;
+  const { serviceName, destination, serviceFolder, dryRun, deleteSource } = options;
 
   const servicePath = 'app/services';
   const packagePath = path.join('.', destination) || 'packages/engines';
@@ -74,7 +74,6 @@ module.exports.handler = async function handler(options) {
     dryRun,
     packagePath,
     destination,
-    modulePrefix,
     fileType: 'Service'
   });
 };

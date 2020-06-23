@@ -27,30 +27,24 @@ module.exports.builder = function builder(yargs) {
 module.exports.handler = async function handler(options) {
   const path = require('path');
 
-  const fse = require('fs-extra');
-  const { log, error, ok } = require('../utils/logging');
+  const MoveFile = require('../utils/move-file');
 
   const storagePath = 'app/storages';
-  const { storageName, destination, storageFolder, dryRun } = options;
+  const { storageName, destination, storageFolder, dryRun, deleteSource } = options;
   const packagePath = path.join('.', destination) || 'packages/engines';
 
   // Moving storage.js
-  log('Moving storage.js');
-  log('---------------');
   const sourcestorage = storageFolder
     ? `${storagePath}/${storageFolder}/${storageName}.js`
     : `${storagePath}/${storageName}.js`;
   const deststorage = `${packagePath}/app/storages/${storageName}.js`;
 
-  log(sourcestorage);
-  log(deststorage);
-
-  if (!dryRun) {
-    fse
-      .copy(sourcestorage, deststorage)
-      .then(() => {
-        ok(`Success: storage ${storageName}.js copied`);
-      })
-      .catch((err) => error(err));
-  }
+  MoveFile({
+    deleteSource,
+    fileName: storageName,
+    sourceFile: sourcestorage,
+    destPath: deststorage,
+    fileType: 'Storage',
+    dryRun
+  });
 };

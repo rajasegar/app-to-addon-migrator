@@ -1,6 +1,6 @@
 'use strict';
 
-const AddDefaultOptions = require('../utils/add-default-options');
+const addDefaultOptions = require('../utils/add-default-options');
 
 module.exports.command = 'route [route-name] [destination]';
 
@@ -21,7 +21,7 @@ module.exports.builder = function builder(yargs) {
     type: 'string',
   });
 
-  AddDefaultOptions(yargs);
+  addDefaultOptions(yargs);
 };
 
 module.exports.handler = async function handler(options) {
@@ -83,32 +83,6 @@ module.exports.handler = async function handler(options) {
     dryRun
   });
 
-  // Create route assets to app folder in addon
-
-  // CreateAppExport({
-  //   fileName: routeName,
-  //   fileOptions: {
-  //     ext: 'js',
-  //     type: 'routes'
-  //   },
-  //   dryRun,
-  //   packagePath,
-  //   destination,
-  //   fileType: 'Route'
-  // });
-
-  // CreateAppExport({
-  //   fileName: routeName,
-  //   fileOptions: {
-  //     ext: 'hbs',
-  //     type: 'templates'
-  //   },
-  //   dryRun,
-  //   packagePath,
-  //   destination,
-  //   fileType: 'Route Template'
-  // });
-
   // Move the controllers
   const sourceController = routeFolder
     ? `${controllerPath}/${routeFolder}/${routeName}.js`
@@ -123,20 +97,6 @@ module.exports.handler = async function handler(options) {
     fileType: 'Controller',
     dryRun
   });
-
-  // Create controller assets to app folder in addon
-
-  // CreateAppExport({
-  //   fileName: routeName,
-  //   fileOptions: {
-  //     ext: 'js',
-  //     type: 'controllers'
-  //   },
-  //   dryRun,
-  //   packagePath,
-  //   destination,
-  //   fileType: 'Controller'
-  // });
 
   // Moving controller tests
   const sourceControllerTest = routeFolder

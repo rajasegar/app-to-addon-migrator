@@ -1,6 +1,6 @@
 'use strict';
 
-const AddDefaultOptions = require('../utils/add-default-options');
+const addDefaultOptions = require('../utils/add-default-options');
 
 module.exports.command = 'constant [constant-name] [destination]';
 
@@ -22,7 +22,7 @@ module.exports.builder = function builder(yargs) {
     type: 'string',
   });
 
-  AddDefaultOptions(yargs);
+  addDefaultOptions(yargs);
 };
 
 module.exports.handler = async function handler(options) {
@@ -48,5 +48,21 @@ module.exports.handler = async function handler(options) {
     destPath: destconstant,
     fileType: 'Constant',
     dryRun
+  });
+
+
+
+  // Create constant assets to app folder in addon
+
+  CreateAppExport({
+    fileName: constantName,
+    fileOptions: {
+      ext: 'js',
+      type: 'constants'
+    },
+    dryRun,
+    packagePath,
+    destination,
+    fileType: 'Constant'
   });
 };

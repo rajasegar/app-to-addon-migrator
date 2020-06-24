@@ -30,7 +30,7 @@ module.exports.handler = async function handler(options) {
   const createAppExport = require('../utils/create-app-export');
 
   const utilPath = 'app/utils';
-  const { utilName, destination, utilFolder, dryRun, deleteSource } = options;
+  const { utilName, destination, utilFolder, dryRun } = options;
   const packagePath = path.join('.', destination) || 'packages/engines';
 
   // Moving util.js
@@ -39,14 +39,17 @@ module.exports.handler = async function handler(options) {
     : `${utilPath}/${utilName}.js`;
   const destutil = `${packagePath}/addon/utils/${utilName}.js`;
 
-  moveFile({
-    deleteSource,
-    fileName: utilName,
-    sourceFile: sourceutil,
-    destPath: destutil,
-    fileType: 'Util',
-    dryRun,
-  });
+  moveFile(
+    Object.assign(
+      {
+        fileName: utilName,
+        sourceFile: sourceutil,
+        destPath: destutil,
+        fileType: 'Util',
+      },
+      options
+    )
+  );
 
   // Moving util tests
   const sourceTest = utilFolder
@@ -54,14 +57,17 @@ module.exports.handler = async function handler(options) {
     : `tests/unit/utils/${utilName}-test.js`;
   const destTest = `${packagePath}/tests/unit/utils/${utilName}-test.js`;
 
-  moveFile({
-    deleteSource,
-    fileName: utilName,
-    sourceFile: sourceTest,
-    destPath: destTest,
-    fileType: 'Util Test',
-    dryRun,
-  });
+  moveFile(
+    Object.assign(
+      {
+        fileName: utilName,
+        sourceFile: sourceTest,
+        destPath: destTest,
+        fileType: 'Util Test',
+      },
+      options
+    )
+  );
 
   // Create util assets to app folder in addon
 

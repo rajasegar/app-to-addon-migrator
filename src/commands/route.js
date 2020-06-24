@@ -28,7 +28,7 @@ module.exports.handler = async function handler(options) {
   const path = require('path');
   const moveFile = require('../utils/move-file');
 
-  const { routeName, destination, routeFolder, dryRun, deleteSource } = options;
+  const { routeName, destination, routeFolder } = options;
 
   const routePath = 'app/routes';
   const templatePath = 'app/templates';
@@ -43,14 +43,17 @@ module.exports.handler = async function handler(options) {
     : `${routePath}/${routeName}.js`;
   const destRoute = `${packagePath}/addon/routes/${routeName}.js`;
 
-  moveFile({
-    deleteSource,
-    fileName: routeName,
-    sourceFile: sourceRoute,
-    destPath: destRoute,
-    fileType: 'Route',
-    dryRun,
-  });
+  moveFile(
+    Object.assign(
+      {
+        fileName: routeName,
+        sourceFile: sourceRoute,
+        destPath: destRoute,
+        fileType: 'Route',
+      },
+      options
+    )
+  );
 
   // Moving route template.hbs
   const sourceTemplate = routeFolder
@@ -59,28 +62,35 @@ module.exports.handler = async function handler(options) {
 
   const destTemplate = `${packagePath}/addon/templates/${routeName}.hbs`;
 
-  moveFile({
-    deleteSource,
-    fileName: routeName,
-    sourceFile: sourceTemplate,
-    destPath: destTemplate,
-    fileType: 'Route Template',
-    dryRun,
-  });
+  moveFile(
+    Object.assign(
+      {
+        fileName: routeName,
+        sourceFile: sourceTemplate,
+        destPath: destTemplate,
+        fileType: 'Route Template',
+      },
+      options
+    )
+  );
 
   // Moving route tests
   const sourceTest = routeFolder
     ? `${testPath}/${routeFolder}/${routeName}-test.js`
     : `${testPath}/${routeName}-test.js`;
   const destTest = `${packagePath}/tests/unit/routes/${routeName}-test.js`;
-  moveFile({
-    deleteSource,
-    fileName: routeName,
-    sourceFile: sourceTest,
-    destPath: destTest,
-    fileType: 'Route Test',
-    dryRun,
-  });
+
+  moveFile(
+    Object.assign(
+      {
+        fileName: routeName,
+        sourceFile: sourceTest,
+        destPath: destTest,
+        fileType: 'Route Test',
+      },
+      options
+    )
+  );
 
   // Move the controllers
   const sourceController = routeFolder
@@ -88,14 +98,17 @@ module.exports.handler = async function handler(options) {
     : `${controllerPath}/${routeName}.js`;
   const destController = `${packagePath}/addon/controllers/${routeName}.js`;
 
-  moveFile({
-    deleteSource,
-    fileName: routeName,
-    sourceFile: sourceController,
-    destPath: destController,
-    fileType: 'Controller',
-    dryRun,
-  });
+  moveFile(
+    Object.assign(
+      {
+        fileName: routeName,
+        sourceFile: sourceController,
+        destPath: destController,
+        fileType: 'Controller',
+      },
+      options
+    )
+  );
 
   // Moving controller tests
   const sourceControllerTest = routeFolder
@@ -103,12 +116,15 @@ module.exports.handler = async function handler(options) {
     : `${controllerTestPath}/${routeName}-test.js`;
   const destControllerTest = `${packagePath}/tests/unit/controllers/${routeName}-test.js`;
 
-  moveFile({
-    deleteSource,
-    fileName: routeName,
-    sourceFile: sourceControllerTest,
-    destPath: destControllerTest,
-    fileType: 'Controller Test',
-    dryRun,
-  });
+  moveFile(
+    Object.assign(
+      {
+        fileName: routeName,
+        sourceFile: sourceControllerTest,
+        destPath: destControllerTest,
+        fileType: 'Controller Test',
+      },
+      options
+    )
+  );
 };

@@ -2,14 +2,24 @@
 
 const fs = require('fs');
 const fse = require('fs-extra');
+const path = require('path');
 
 const { log, error, ok, warning } = require('./logging');
 
 module.exports = function (options) {
-  const { fileName, sourceFile, destPath, dryRun, deleteSource, fileType } = options;
+  const { fileName, sourceFile, dryRun, deleteSource, fileType, keepTestsInHost } = options;
+
+  let { destPath } = options;
 
   log(`Moving ${fileType}`);
   log('---------------');
+
+  log(`keepTestsInHost - ${keepTestsInHost}`);
+  log(`destMatched - ${destPath.match(/\/tests\//g)}`);
+
+  if (keepTestsInHost && destPath.match(/\/tests\//g)) {
+    destPath = path.join('tests', destPath);
+  }
 
   log(sourceFile);
   log(destPath);

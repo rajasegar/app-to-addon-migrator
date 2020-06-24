@@ -30,7 +30,7 @@ module.exports.handler = async function handler(options) {
   const moveFile = require('../utils/move-file');
 
   const storagePath = 'app/storages';
-  const { storageName, destination, storageFolder, dryRun, deleteSource } = options;
+  const { storageName, destination, storageFolder } = options;
   const packagePath = path.join('.', destination) || 'packages/engines';
 
   // Moving storage.js
@@ -39,12 +39,15 @@ module.exports.handler = async function handler(options) {
     : `${storagePath}/${storageName}.js`;
   const deststorage = `${packagePath}/app/storages/${storageName}.js`;
 
-  moveFile({
-    deleteSource,
-    fileName: storageName,
-    sourceFile: sourcestorage,
-    destPath: deststorage,
-    fileType: 'Storage',
-    dryRun,
-  });
+  moveFile(
+    Object.assign(
+      {
+        fileName: storageName,
+        sourceFile: sourcestorage,
+        destPath: deststorage,
+        fileType: 'Storage',
+      },
+      options
+    )
+  );
 };

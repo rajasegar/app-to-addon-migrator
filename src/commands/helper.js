@@ -30,7 +30,7 @@ module.exports.handler = async function handler(options) {
   const createAppExport = require('../utils/create-app-export');
 
   const helperPath = 'app/helpers';
-  const { helperName, destination, helperFolder, dryRun, deleteSource } = options;
+  const { helperName, destination, helperFolder, dryRun } = options;
   const packagePath = path.join('.', destination) || 'packages/engines';
 
   // Moving helper.js
@@ -39,14 +39,17 @@ module.exports.handler = async function handler(options) {
     : `${helperPath}/${helperName}.js`;
   const desthelper = `${packagePath}/addon/helpers/${helperName}.js`;
 
-  moveFile({
-    deleteSource,
-    fileName: helperName,
-    sourceFile: sourcehelper,
-    destPath: desthelper,
-    fileType: 'Helper',
-    dryRun,
-  });
+  moveFile(
+    Object.assign(
+      {
+        fileName: helperName,
+        sourceFile: sourcehelper,
+        destPath: desthelper,
+        fileType: 'Helper',
+      },
+      options
+    )
+  );
 
   // Moving helper tests
   const sourceTest = helperFolder
@@ -54,14 +57,17 @@ module.exports.handler = async function handler(options) {
     : `tests/unit/helpers/${helperName}-test.js`;
   const destTest = `${packagePath}/tests/unit/helpers/${helperName}-test.js`;
 
-  moveFile({
-    deleteSource,
-    fileName: helperName,
-    sourceFile: sourceTest,
-    destPath: destTest,
-    fileType: 'Helper Test',
-    dryRun,
-  });
+  moveFile(
+    Object.assign(
+      {
+        fileName: helperName,
+        sourceFile: sourceTest,
+        destPath: destTest,
+        fileType: 'Helper Test',
+      },
+      options
+    )
+  );
 
   // Create helper assets to app folder in addon
   createAppExport({

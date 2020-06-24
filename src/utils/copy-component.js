@@ -13,7 +13,7 @@ const createAppExport = require('./create-app-export');
 
 module.exports = async function (options) {
   const componentPath = 'app/components';
-  const { componentFolder, componentName, destination, dryRun, pods, deleteSource } = options;
+  const { componentFolder, componentName, destination, dryRun, pods } = options;
   const packagePath = path.join('.', destination) || 'packages/engines';
 
   // IMPORTANT NOTE: We're deliberately avoiding POD structure in engines
@@ -45,14 +45,17 @@ module.exports = async function (options) {
   }
   const destTemplate = `${packagePath}/addon/templates/components/${componentName}.hbs`;
 
-  await moveFile({
-    deleteSource,
-    fileName: componentName,
-    sourceFile: sourceComponent,
-    destPath: destComponent,
-    fileType: 'Component',
-    dryRun,
-  });
+  await moveFile(
+    Object.assign(
+      {
+        fileName: componentName,
+        sourceFile: sourceComponent,
+        destPath: destComponent,
+        fileType: 'Component',
+      },
+      options
+    )
+  );
 
   // Modify layout import for addon compoenent
   if (fs.existsSync(sourceTemplate)) {
@@ -68,14 +71,17 @@ module.exports = async function (options) {
     ok(`Success: Added layout property to the ${componentName}.js`);
   }
 
-  moveFile({
-    deleteSource,
-    fileName: componentName,
-    sourceFile: sourceTemplate,
-    destPath: destTemplate,
-    fileType: 'Component Template',
-    dryRun,
-  });
+  moveFile(
+    Object.assign(
+      {
+        fileName: componentName,
+        sourceFile: sourceTemplate,
+        destPath: destTemplate,
+        fileType: 'Component Template',
+      },
+      options
+    )
+  );
 
   // Moving component tests
 
@@ -92,14 +98,17 @@ module.exports = async function (options) {
 
   const destTest = `${packagePath}/tests/integration/components/${componentName}-test.js`;
 
-  moveFile({
-    deleteSource,
-    fileName: componentName,
-    sourceFile: sourceTest,
-    destPath: destTest,
-    fileType: 'Component Test',
-    dryRun,
-  });
+  moveFile(
+    Object.assign(
+      {
+        fileName: componentName,
+        sourceFile: sourceTest,
+        destPath: destTest,
+        fileType: 'Component Test',
+      },
+      options
+    )
+  );
 
   // Create component assets to app folder in addon
   createAppExport({

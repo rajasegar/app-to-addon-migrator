@@ -50,15 +50,22 @@ module.exports.moveComponent = function () {
       message: 'Delete Source? (default: no)',
       default: false,
     },
+    {
+      type: 'confirm',
+      name: 'keepTestsInHost',
+      message: 'Convert and keep the tests in the host app itself? (default: no)',
+      default: false,
+    },
   ];
 
   inquirer.prompt(componentPrompt).then((answers) => {
-    const { componentName, destination, dryRun, deleteSource } = answers;
+    const { componentName, destination, dryRun, deleteSource, keepTestsInHost } = answers;
     command.handler({
       componentName,
       destination,
       dryRun,
       deleteSource,
+      keepTestsInHost,
       pods: true,
     });
   });

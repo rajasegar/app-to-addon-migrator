@@ -32,7 +32,7 @@ module.exports.handler = async function handler(options) {
 
   const constantPath = 'app/constants';
 
-  const { constantName, destination, constantFolder, dryRun, deleteSource } = options;
+  const { constantName, destination, constantFolder, dryRun } = options;
 
   const packagePath = path.join('.', destination) || 'packages/engines';
 
@@ -42,15 +42,17 @@ module.exports.handler = async function handler(options) {
     : `${constantPath}/${constantName}.js`;
   const destconstant = `${packagePath}/addon/constants/${constantName}.js`;
 
-  moveFile({
-    deleteSource,
-    fileName: constantName,
-    sourceFile: sourceconstant,
-    destPath: destconstant,
-    fileType: 'Constant',
-    dryRun,
-  });
-
+  moveFile(
+    Object.assign(
+      {
+        fileName: constantName,
+        sourceFile: sourceconstant,
+        destPath: destconstant,
+        fileType: 'Constant',
+      },
+      options
+    )
+  );
   // Create constant assets to app folder in addon
 
   createAppExport({

@@ -29,7 +29,7 @@ module.exports.handler = async function handler(options) {
   const moveFile = require('../utils/move-file');
 
   const mixinPath = 'app/mixins';
-  const { mixinFolder, mixinName, destination, dryRun, deleteSource } = options;
+  const { mixinFolder, mixinName, destination } = options;
   const packagePath = path.join('.', destination) || 'packages/engines';
 
   // Moving mixin.js
@@ -38,14 +38,17 @@ module.exports.handler = async function handler(options) {
     : `${mixinPath}/${mixinName}.js`;
   const destmixin = `${packagePath}/addon/mixins/${mixinName}.js`;
 
-  moveFile({
-    deleteSource,
-    fileName: mixinName,
-    sourceFile: sourcemixin,
-    destPath: destmixin,
-    fileType: 'Mixin',
-    dryRun,
-  });
+  moveFile(
+    Object.assign(
+      {
+        fileName: mixinName,
+        sourceFile: sourcemixin,
+        destPath: destmixin,
+        fileType: 'Mixin',
+      },
+      options
+    )
+  );
 
   // Moving mixin tests
   const sourceTest = mixinFolder
@@ -53,12 +56,15 @@ module.exports.handler = async function handler(options) {
     : `tests/unit/mixins/${mixinName}-test.js`;
   const destTest = `${packagePath}/tests/unit/mixins/${mixinName}-test.js`;
 
-  moveFile({
-    deleteSource,
-    fileName: mixinName,
-    sourceFile: sourceTest,
-    destPath: destTest,
-    fileType: 'Mixin Test',
-    dryRun,
-  });
+  moveFile(
+    Object.assign(
+      {
+        fileName: mixinName,
+        sourceFile: sourceTest,
+        destPath: destTest,
+        fileType: 'Mixin Test',
+      },
+      options
+    )
+  );
 };

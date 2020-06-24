@@ -33,7 +33,7 @@ module.exports.handler = async function handler(options) {
 
   const copyComponent = require('../utils/copy-component');
 
-  const { routeName, routeFolder, dryRun, deleteSource } = options;
+  const { routeName, routeFolder, dryRun, deleteSource, keepTestsInHost } = options;
   const templatePath = 'app/templates/helpdesk';
 
   // Moving route.js
@@ -114,6 +114,7 @@ module.exports.handler = async function handler(options) {
             // addonName,
             dryRun,
             deleteSource,
+            keepTestsInHost,
           };
 
           copyComponent(opts);

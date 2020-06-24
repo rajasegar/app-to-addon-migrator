@@ -26,8 +26,8 @@ module.exports.builder = function builder(yargs) {
 
 module.exports.handler = async function handler(options) {
   const path = require('path');
-  const MoveFile = require('../utils/move-file');
-  const CreateAppExport = require('../utils/create-app-export');
+  const moveFile = require('../utils/move-file');
+  const createAppExport = require('../utils/create-app-export');
 
   const modelPath = 'app/models';
 
@@ -40,7 +40,7 @@ module.exports.handler = async function handler(options) {
     : `${modelPath}/${modelName}.js`;
   const destmodel = `${packagePath}/addon/models/${modelName}.js`;
 
-  MoveFile({
+  moveFile({
     deleteSource,
     fileName: modelName,
     sourceFile: sourcemodel,
@@ -55,7 +55,7 @@ module.exports.handler = async function handler(options) {
     : `tests/unit/models/${modelName}-test.js`;
   const destTest = `${packagePath}/tests/unit/models/${modelName}-test.js`;
 
-  MoveFile({
+  moveFile({
     deleteSource,
     fileName: modelName,
     sourceFile: sourceTest,
@@ -65,7 +65,7 @@ module.exports.handler = async function handler(options) {
   });
 
   // Create model assets to app folder in addon
-  CreateAppExport({
+  createAppExport({
     fileName: modelName,
     fileOptions: {
       ext: 'js',

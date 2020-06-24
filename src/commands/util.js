@@ -26,8 +26,8 @@ module.exports.builder = function builder(yargs) {
 
 module.exports.handler = async function handler(options) {
   const path = require('path');
-  const MoveFile = require('../utils/move-file');
-  const CreateAppExport = require('../utils/create-app-export');
+  const moveFile = require('../utils/move-file');
+  const createAppExport = require('../utils/create-app-export');
 
   const utilPath = 'app/utils';
   const { utilName, destination, utilFolder, dryRun, deleteSource } = options;
@@ -39,7 +39,7 @@ module.exports.handler = async function handler(options) {
     : `${utilPath}/${utilName}.js`;
   const destutil = `${packagePath}/addon/utils/${utilName}.js`;
 
-  MoveFile({
+  moveFile({
     deleteSource,
     fileName: utilName,
     sourceFile: sourceutil,
@@ -54,7 +54,7 @@ module.exports.handler = async function handler(options) {
     : `tests/unit/utils/${utilName}-test.js`;
   const destTest = `${packagePath}/tests/unit/utils/${utilName}-test.js`;
 
-  MoveFile({
+  moveFile({
     deleteSource,
     fileName: utilName,
     sourceFile: sourceTest,
@@ -65,7 +65,7 @@ module.exports.handler = async function handler(options) {
 
   // Create util assets to app folder in addon
 
-  CreateAppExport({
+  createAppExport({
     fileName: utilName,
     fileOptions: {
       ext: 'js',

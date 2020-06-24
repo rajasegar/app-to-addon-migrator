@@ -25,8 +25,8 @@ module.exports.builder = function builder(yargs) {
 
 module.exports.handler = async function handler(options) {
   const path = require('path');
-  const MoveFile = require('../utils/move-file');
-  const CreateAppExport = require('../utils/create-app-export');
+  const moveFile = require('../utils/move-file');
+  const createAppExport = require('../utils/create-app-export');
 
   const { adapterName, destination, adapterFolder, dryRun, deleteSource } = options;
 
@@ -39,7 +39,7 @@ module.exports.handler = async function handler(options) {
     : `${adapterPath}/${adapterName}.js`;
   const destadapter = `${packagePath}/addon/adapters/${adapterName}.js`;
 
-  MoveFile({
+  moveFile({
     deleteSource,
     fileName: adapterName,
     sourceFile: sourceadapter,
@@ -54,7 +54,7 @@ module.exports.handler = async function handler(options) {
     : `tests/unit/adapters/${adapterName}-test.js`;
   const destTest = `${packagePath}/tests/unit/adapters/${adapterName}-test.js`;
 
-  MoveFile({
+  moveFile({
     deleteSource,
     fileName: adapterName,
     sourceFile: sourceTest,
@@ -65,7 +65,7 @@ module.exports.handler = async function handler(options) {
 
   // Create adapter assets to app folder in addon
 
-  CreateAppExport({
+  createAppExport({
     fileName: adapterName,
     fileOptions: {
       ext: 'js',

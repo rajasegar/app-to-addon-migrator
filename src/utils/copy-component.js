@@ -8,8 +8,8 @@ const { ok } = require('./logging');
 const PROJECT_ROOT = path.join(__dirname, '..', '..');
 const CODEMOD_EXEC_PATH = path.join(PROJECT_ROOT, 'bin', 'atam-codemod-cli.js');
 
-const MoveFile = require('./move-file');
-const CreateAppExport = require('./create-app-export');
+const moveFile = require('./move-file');
+const createAppExport = require('./create-app-export');
 
 module.exports = async function (options) {
   const componentPath = 'app/components';
@@ -45,7 +45,7 @@ module.exports = async function (options) {
   }
   const destTemplate = `${packagePath}/addon/templates/components/${componentName}.hbs`;
 
-  await MoveFile({
+  await moveFile({
     deleteSource,
     fileName: componentName,
     sourceFile: sourceComponent,
@@ -68,7 +68,7 @@ module.exports = async function (options) {
     ok(`Success: Added layout property to the ${componentName}.js`);
   }
 
-  MoveFile({
+  moveFile({
     deleteSource,
     fileName: componentName,
     sourceFile: sourceTemplate,
@@ -92,7 +92,7 @@ module.exports = async function (options) {
 
   const destTest = `${packagePath}/tests/integration/components/${componentName}-test.js`;
 
-  MoveFile({
+  moveFile({
     deleteSource,
     fileName: componentName,
     sourceFile: sourceTest,
@@ -102,7 +102,7 @@ module.exports = async function (options) {
   });
 
   // Create component assets to app folder in addon
-  CreateAppExport({
+  createAppExport({
     fileName: componentName,
     fileOptions: {
       ext: 'js',

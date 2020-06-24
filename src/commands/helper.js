@@ -26,8 +26,8 @@ module.exports.builder = function builder(yargs) {
 
 module.exports.handler = async function handler(options) {
   const path = require('path');
-  const MoveFile = require('../utils/move-file');
-  const CreateAppExport = require('../utils/create-app-export');
+  const moveFile = require('../utils/move-file');
+  const createAppExport = require('../utils/create-app-export');
 
   const helperPath = 'app/helpers';
   const { helperName, destination, helperFolder, dryRun, deleteSource } = options;
@@ -39,7 +39,7 @@ module.exports.handler = async function handler(options) {
     : `${helperPath}/${helperName}.js`;
   const desthelper = `${packagePath}/addon/helpers/${helperName}.js`;
 
-  MoveFile({
+  moveFile({
     deleteSource,
     fileName: helperName,
     sourceFile: sourcehelper,
@@ -54,7 +54,7 @@ module.exports.handler = async function handler(options) {
     : `tests/unit/helpers/${helperName}-test.js`;
   const destTest = `${packagePath}/tests/unit/helpers/${helperName}-test.js`;
 
-  MoveFile({
+  moveFile({
     deleteSource,
     fileName: helperName,
     sourceFile: sourceTest,
@@ -64,7 +64,7 @@ module.exports.handler = async function handler(options) {
   });
 
   // Create helper assets to app folder in addon
-  CreateAppExport({
+  createAppExport({
     fileName: helperName,
     fileOptions: {
       ext: 'js',

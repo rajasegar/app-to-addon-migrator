@@ -27,7 +27,8 @@ module.exports.builder = function builder(yargs) {
 
 module.exports.handler = async function handler(options) {
   const path = require('path');
-  const MoveFile = require('../utils/move-file');
+  const moveFile = require('../utils/move-file');
+  const createAppExport = require('../utils/create-app-export');
 
   const constantPath = 'app/constants';
 
@@ -41,7 +42,7 @@ module.exports.handler = async function handler(options) {
     : `${constantPath}/${constantName}.js`;
   const destconstant = `${packagePath}/addon/constants/${constantName}.js`;
 
-  MoveFile({
+  moveFile({
     deleteSource,
     fileName: constantName,
     sourceFile: sourceconstant,
@@ -52,7 +53,7 @@ module.exports.handler = async function handler(options) {
 
   // Create constant assets to app folder in addon
 
-  CreateAppExport({
+  createAppExport({
     fileName: constantName,
     fileOptions: {
       ext: 'js',

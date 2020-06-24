@@ -26,7 +26,7 @@ module.exports.builder = function builder(yargs) {
 
 module.exports.handler = async function handler(options) {
   const path = require('path');
-  const MoveFile = require('../utils/move-file');
+  const moveFile = require('../utils/move-file');
 
   const mixinPath = 'app/mixins';
   const { mixinFolder, mixinName, destination, dryRun, deleteSource } = options;
@@ -38,7 +38,7 @@ module.exports.handler = async function handler(options) {
     : `${mixinPath}/${mixinName}.js`;
   const destmixin = `${packagePath}/addon/mixins/${mixinName}.js`;
 
-  MoveFile({
+  moveFile({
     deleteSource,
     fileName: mixinName,
     sourceFile: sourcemixin,
@@ -53,7 +53,7 @@ module.exports.handler = async function handler(options) {
     : `tests/unit/mixins/${mixinName}-test.js`;
   const destTest = `${packagePath}/tests/unit/mixins/${mixinName}-test.js`;
 
-  MoveFile({
+  moveFile({
     deleteSource,
     fileName: mixinName,
     sourceFile: sourceTest,

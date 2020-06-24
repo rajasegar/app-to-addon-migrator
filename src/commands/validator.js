@@ -26,8 +26,8 @@ module.exports.builder = function builder(yargs) {
 
 module.exports.handler = async function handler(options) {
   const path = require('path');
-  const MoveFile = require('../utils/move-file');
-  const CreateAppExport = require('../utils/create-app-export');
+  const moveFile = require('../utils/move-file');
+  const createAppExport = require('../utils/create-app-export');
 
   const { validatorName, destination, validatorFolder, dryRun, deleteSource } = options;
 
@@ -40,7 +40,7 @@ module.exports.handler = async function handler(options) {
     : `${validatorPath}/${validatorName}.js`;
   const destvalidator = `${packagePath}/addon/validators/${validatorName}.js`;
 
-  MoveFile({
+  moveFile({
     deleteSource,
     fileName: validatorName,
     sourceFile: sourcevalidator,
@@ -54,7 +54,7 @@ module.exports.handler = async function handler(options) {
     ? `tests/unit/validators/${validatorFolder}/${validatorName}-test.js`
     : `tests/unit/validators/${validatorName}-test.js`;
   const destTest = `${packagePath}/tests/unit/validators/${validatorName}-test.js`;
-  MoveFile({
+  moveFile({
     deleteSource,
     fileName: validatorName,
     sourceFile: sourceTest,
@@ -64,7 +64,7 @@ module.exports.handler = async function handler(options) {
   });
 
   // Create validator assets to app folder in addon
-  CreateAppExport({
+  createAppExport({
     fileName: validatorName,
     fileOptions: {
       ext: 'js',

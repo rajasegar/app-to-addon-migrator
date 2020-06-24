@@ -27,7 +27,7 @@ module.exports.builder = function builder(yargs) {
 module.exports.handler = async function handler(options) {
   const path = require('path');
 
-  const MoveFile = require('../utils/move-file');
+  const moveFile = require('../utils/move-file');
 
   const storagePath = 'app/storages';
   const { storageName, destination, storageFolder, dryRun, deleteSource } = options;
@@ -39,7 +39,7 @@ module.exports.handler = async function handler(options) {
     : `${storagePath}/${storageName}.js`;
   const deststorage = `${packagePath}/app/storages/${storageName}.js`;
 
-  MoveFile({
+  moveFile({
     deleteSource,
     fileName: storageName,
     sourceFile: sourcestorage,

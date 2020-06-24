@@ -26,7 +26,7 @@ module.exports.builder = function builder(yargs) {
 
 module.exports.handler = async function handler(options) {
   const path = require('path');
-  const MoveFile = require('../utils/move-file');
+  const moveFile = require('../utils/move-file');
 
   const { routeName, destination, routeFolder, dryRun, deleteSource } = options;
 
@@ -43,7 +43,7 @@ module.exports.handler = async function handler(options) {
     : `${routePath}/${routeName}.js`;
   const destRoute = `${packagePath}/addon/routes/${routeName}.js`;
 
-  MoveFile({
+  moveFile({
     deleteSource,
     fileName: routeName,
     sourceFile: sourceRoute,
@@ -59,7 +59,7 @@ module.exports.handler = async function handler(options) {
 
   const destTemplate = `${packagePath}/addon/templates/${routeName}.hbs`;
 
-  MoveFile({
+  moveFile({
     deleteSource,
     fileName: routeName,
     sourceFile: sourceTemplate,
@@ -73,7 +73,7 @@ module.exports.handler = async function handler(options) {
     ? `${testPath}/${routeFolder}/${routeName}-test.js`
     : `${testPath}/${routeName}-test.js`;
   const destTest = `${packagePath}/tests/unit/routes/${routeName}-test.js`;
-  MoveFile({
+  moveFile({
     deleteSource,
     fileName: routeName,
     sourceFile: sourceTest,
@@ -88,7 +88,7 @@ module.exports.handler = async function handler(options) {
     : `${controllerPath}/${routeName}.js`;
   const destController = `${packagePath}/addon/controllers/${routeName}.js`;
 
-  MoveFile({
+  moveFile({
     deleteSource,
     fileName: routeName,
     sourceFile: sourceController,
@@ -103,7 +103,7 @@ module.exports.handler = async function handler(options) {
     : `${controllerTestPath}/${routeName}-test.js`;
   const destControllerTest = `${packagePath}/tests/unit/controllers/${routeName}-test.js`;
 
-  MoveFile({
+  moveFile({
     deleteSource,
     fileName: routeName,
     sourceFile: sourceControllerTest,

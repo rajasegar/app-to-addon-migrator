@@ -25,8 +25,8 @@ module.exports.builder = function builder(yargs) {
 
 module.exports.handler = async function handler(options) {
   const path = require('path');
-  const MoveFile = require('../utils/move-file');
-  const CreateAppExport = require('../utils/create-app-export');
+  const moveFile = require('../utils/move-file');
+  const createAppExport = require('../utils/create-app-export');
 
   const { serviceName, destination, serviceFolder, dryRun, deleteSource } = options;
 
@@ -39,7 +39,7 @@ module.exports.handler = async function handler(options) {
     : `${servicePath}/${serviceName}.js`;
   const destservice = `${packagePath}/addon/services/${serviceName}.js`;
 
-  MoveFile({
+  moveFile({
     deleteSource,
     fileName: serviceName,
     sourceFile: sourceservice,
@@ -54,7 +54,7 @@ module.exports.handler = async function handler(options) {
     : `tests/unit/services/${serviceName}-test.js`;
   const destTest = `${packagePath}/tests/unit/services/${serviceName}-test.js`;
 
-  MoveFile({
+  moveFile({
     deleteSource,
     fileName: serviceName,
     sourceFile: sourceTest,
@@ -65,7 +65,7 @@ module.exports.handler = async function handler(options) {
 
   // Create service assets to app folder in addon
 
-  CreateAppExport({
+  createAppExport({
     fileName: serviceName,
     fileOptions: {
       ext: 'js',

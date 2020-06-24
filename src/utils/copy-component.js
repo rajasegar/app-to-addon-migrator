@@ -2,6 +2,7 @@
 
 const path = require('path');
 const execa = require('execa');
+const fs = require('fs');
 
 const PROJECT_ROOT = path.join(__dirname, '..', '..');
 const CODEMOD_EXEC_PATH = path.join(PROJECT_ROOT, 'bin', 'atam-codemod-cli.js');

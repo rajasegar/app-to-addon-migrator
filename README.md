@@ -80,6 +80,13 @@ Say for example you want to move a component called `widget` from `app/component
 atam component widget packages/engines/dashboards-engine -f dashboards
 ```
 
+### Delete Source
+If you just want to delete the source files after the movement use the `--delete-source` or `-ds` option.
+
+```
+atam route default packages/engines/dashboards-engine -ds
+```
+
 ## Commands:
 ```
   atam adapter [adapter-name]               Copy an adapter from app to addon

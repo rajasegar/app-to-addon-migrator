@@ -1,6 +1,10 @@
 'use strict';
 
 const path = require('path');
+const execa = require('execa');
+
+const PROJECT_ROOT = path.join(__dirname, '..', '..');
+const CODEMOD_EXEC_PATH = path.join(PROJECT_ROOT, 'bin', 'atam-codemod-cli.js');
 
 const MoveFile = require('./move-file');
 const CreateAppExport = require('./create-app-export');
@@ -17,7 +21,6 @@ module.exports = function (options) {
   } = options;
   const packagePath = path.join('.', destination) || 'packages/engines';
 
-  // Moving component.js
   // IMPORTANT NOTE: We're deliberately avoiding POD structure in engines
   // Hence, the components are moved appropriately splitting the js and hbs
   // from a single folder

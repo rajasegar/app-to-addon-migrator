@@ -13,14 +13,7 @@ const CreateAppExport = require('./create-app-export');
 
 module.exports = async function (options) {
   const componentPath = 'app/components';
-  const {
-    componentFolder,
-    componentName,
-    destination,
-    dryRun,
-    pods,
-    deleteSource
-  } = options;
+  const { componentFolder, componentName, destination, dryRun, pods, deleteSource } = options;
   const packagePath = path.join('.', destination) || 'packages/engines';
 
   // IMPORTANT NOTE: We're deliberately avoiding POD structure in engines
@@ -58,9 +51,9 @@ module.exports = async function (options) {
     sourceFile: sourceComponent,
     destPath: destComponent,
     fileType: 'Component',
-    dryRun
+    dryRun,
   });
-  
+
   // Modify layout import for addon compoenent
   if (fs.existsSync(sourceTemplate)) {
     let relativePath = path.relative(destComponent, destTemplate);
@@ -74,14 +67,14 @@ module.exports = async function (options) {
     ]);
     ok(`Success: Added layout property to the ${componentName}.js`);
   }
-  
+
   MoveFile({
     deleteSource,
     fileName: componentName,
     sourceFile: sourceTemplate,
     destPath: destTemplate,
     fileType: 'Component Template',
-    dryRun
+    dryRun,
   });
 
   // Moving component tests
@@ -105,7 +98,7 @@ module.exports = async function (options) {
     sourceFile: sourceTest,
     destPath: destTest,
     fileType: 'Component Test',
-    dryRun
+    dryRun,
   });
 
   // Create component assets to app folder in addon
@@ -113,11 +106,11 @@ module.exports = async function (options) {
     fileName: componentName,
     fileOptions: {
       ext: 'js',
-      type: 'components'
+      type: 'components',
     },
     dryRun,
     packagePath,
     destination,
-    fileType: 'Component'
+    fileType: 'Component',
   });
 };

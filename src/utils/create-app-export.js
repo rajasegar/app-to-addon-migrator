@@ -7,14 +7,7 @@ const fse = require('fs-extra');
 const { log, ok } = require('./logging');
 
 module.exports = function (options) {
-  const {
-    fileName,
-    fileOptions,
-    dryRun,
-    fileType,
-    packagePath,
-    destination
-  } = options;
+  const { fileName, fileOptions, dryRun, fileType, packagePath, destination } = options;
 
   log(`\nCreating ${fileType} assets in app folder `);
   log('----------------------------------- ');
@@ -26,9 +19,6 @@ module.exports = function (options) {
   const addonName = packageName || path.basename(destination);
 
   const fileContent = `export { default } from '${addonName}/${fileOptions.type}/${fileName}';`;
-
-
-
 
   log(destPath);
   if (!dryRun) {

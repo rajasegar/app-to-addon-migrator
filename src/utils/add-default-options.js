@@ -6,6 +6,6 @@ module.exports = function (yargs) {
     demandOption: false,
     describe: 'Delete source files',
     type: 'boolean',
-    default: false
+    default: false,
   });
 };

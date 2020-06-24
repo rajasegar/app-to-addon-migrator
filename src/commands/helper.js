@@ -45,7 +45,7 @@ module.exports.handler = async function handler(options) {
     sourceFile: sourcehelper,
     destPath: desthelper,
     fileType: 'Helper',
-    dryRun
+    dryRun,
   });
 
   // Moving helper tests
@@ -60,7 +60,7 @@ module.exports.handler = async function handler(options) {
     sourceFile: sourceTest,
     destPath: destTest,
     fileType: 'Helper Test',
-    dryRun
+    dryRun,
   });
 
   // Create helper assets to app folder in addon
@@ -68,11 +68,11 @@ module.exports.handler = async function handler(options) {
     fileName: helperName,
     fileOptions: {
       ext: 'js',
-      type: 'helpers'
+      type: 'helpers',
     },
     dryRun,
     packagePath,
     destination,
-    fileType: 'Helper'
+    fileType: 'Helper',
   });
 };

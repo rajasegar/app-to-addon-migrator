@@ -45,7 +45,7 @@ module.exports.handler = async function handler(options) {
     sourceFile: sourceservice,
     destPath: destservice,
     fileType: 'Service',
-    dryRun
+    dryRun,
   });
 
   // Moving service tests
@@ -60,7 +60,7 @@ module.exports.handler = async function handler(options) {
     sourceFile: sourceTest,
     destPath: destTest,
     fileType: 'Service',
-    dryRun
+    dryRun,
   });
 
   // Create service assets to app folder in addon
@@ -69,11 +69,11 @@ module.exports.handler = async function handler(options) {
     fileName: serviceName,
     fileOptions: {
       ext: 'js',
-      type: 'services'
+      type: 'services',
     },
     dryRun,
     packagePath,
     destination,
-    fileType: 'Service'
+    fileType: 'Service',
   });
 };

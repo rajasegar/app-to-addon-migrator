@@ -46,7 +46,7 @@ module.exports.handler = async function handler(options) {
     sourceFile: sourcevalidator,
     destPath: destvalidator,
     fileType: 'Validator',
-    dryRun
+    dryRun,
   });
 
   // Moving validator tests
@@ -60,7 +60,7 @@ module.exports.handler = async function handler(options) {
     sourceFile: sourceTest,
     destPath: destTest,
     fileType: 'Validator Test',
-    dryRun
+    dryRun,
   });
 
   // Create validator assets to app folder in addon
@@ -68,11 +68,11 @@ module.exports.handler = async function handler(options) {
     fileName: validatorName,
     fileOptions: {
       ext: 'js',
-      type: 'validators'
+      type: 'validators',
     },
     dryRun,
     packagePath,
     destination,
-    fileType: 'Validator'
+    fileType: 'Validator',
   });
 };

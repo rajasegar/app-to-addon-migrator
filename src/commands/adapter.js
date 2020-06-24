@@ -45,7 +45,7 @@ module.exports.handler = async function handler(options) {
     sourceFile: sourceadapter,
     destPath: destadapter,
     fileType: 'Adapter',
-    dryRun
+    dryRun,
   });
 
   // Moving adapter tests
@@ -60,7 +60,7 @@ module.exports.handler = async function handler(options) {
     sourceFile: sourceTest,
     destPath: destTest,
     fileType: 'Adapter Test',
-    dryRun
+    dryRun,
   });
 
   // Create adapter assets to app folder in addon
@@ -69,11 +69,11 @@ module.exports.handler = async function handler(options) {
     fileName: adapterName,
     fileOptions: {
       ext: 'js',
-      type: 'adapters'
+      type: 'adapters',
     },
     dryRun,
     packagePath,
     destination,
-    fileType: 'Adapter'
+    fileType: 'Adapter',
   });
 };

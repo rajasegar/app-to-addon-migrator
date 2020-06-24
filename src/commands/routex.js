@@ -113,7 +113,7 @@ module.exports.handler = async function handler(options) {
             componentName: _componentName,
             // addonName,
             dryRun,
-            deleteSource
+            deleteSource,
           };
 
           copyComponent(opts);

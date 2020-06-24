@@ -16,19 +16,18 @@ module.exports = function (options) {
   if (!dryRun) {
     if (fs.existsSync(sourceFile)) {
       return fse
-      .copy(sourceFile, destPath)
-      .then(() => {
-        ok(`Success: ${fileType} - ${fileName} moved`);
-        if (deleteSource) {
-          fse.remove(sourceFile).then(() => {
-            ok(`Success: ${fileType} - ${fileName} ${fileName} deleted`);
-          })
-        }
-      })
-      .catch((err) => error(err));
+        .copy(sourceFile, destPath)
+        .then(() => {
+          ok(`Success: ${fileType} - ${fileName} moved`);
+          if (deleteSource) {
+            fse.remove(sourceFile).then(() => {
+              ok(`Success: ${fileType} - ${fileName} ${fileName} deleted`);
+            });
+          }
+        })
+        .catch((err) => error(err));
     } else {
       warning(`WARNING: There are no matching files of type ${fileType} with name ${fileName}`);
     }
   }
-
 };

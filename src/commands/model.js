@@ -46,7 +46,7 @@ module.exports.handler = async function handler(options) {
     sourceFile: sourcemodel,
     destPath: destmodel,
     fileType: 'Model',
-    dryRun
+    dryRun,
   });
 
   // Moving model tests
@@ -61,7 +61,7 @@ module.exports.handler = async function handler(options) {
     sourceFile: sourceTest,
     destPath: destTest,
     fileType: 'Model Test',
-    dryRun
+    dryRun,
   });
 
   // Create model assets to app folder in addon
@@ -69,11 +69,11 @@ module.exports.handler = async function handler(options) {
     fileName: modelName,
     fileOptions: {
       ext: 'js',
-      type: 'models'
+      type: 'models',
     },
     dryRun,
     packagePath,
     destination,
-    fileType: 'Model'
+    fileType: 'Model',
   });
 };

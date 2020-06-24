@@ -45,7 +45,7 @@ module.exports.handler = async function handler(options) {
     sourceFile: sourceutil,
     destPath: destutil,
     fileType: 'Util',
-    dryRun
+    dryRun,
   });
 
   // Moving util tests
@@ -60,7 +60,7 @@ module.exports.handler = async function handler(options) {
     sourceFile: sourceTest,
     destPath: destTest,
     fileType: 'Util Test',
-    dryRun
+    dryRun,
   });
 
   // Create util assets to app folder in addon
@@ -69,11 +69,11 @@ module.exports.handler = async function handler(options) {
     fileName: utilName,
     fileOptions: {
       ext: 'js',
-      type: 'utils'
+      type: 'utils',
     },
     dryRun,
     packagePath,
     destination,
-    fileType: 'Util'
+    fileType: 'Util',
   });
 };

@@ -47,10 +47,8 @@ module.exports.handler = async function handler(options) {
     sourceFile: sourceconstant,
     destPath: destconstant,
     fileType: 'Constant',
-    dryRun
+    dryRun,
   });
-
-
 
   // Create constant assets to app folder in addon
 
@@ -58,11 +56,11 @@ module.exports.handler = async function handler(options) {
     fileName: constantName,
     fileOptions: {
       ext: 'js',
-      type: 'constants'
+      type: 'constants',
     },
     dryRun,
     packagePath,
     destination,
-    fileType: 'Constant'
+    fileType: 'Constant',
   });
 };

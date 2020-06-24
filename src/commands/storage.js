@@ -45,6 +45,6 @@ module.exports.handler = async function handler(options) {
     sourceFile: sourcestorage,
     destPath: deststorage,
     fileType: 'Storage',
-    dryRun
+    dryRun,
   });
 };

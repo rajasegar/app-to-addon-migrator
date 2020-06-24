@@ -44,7 +44,7 @@ module.exports.handler = async function handler(options) {
     sourceFile: sourcemixin,
     destPath: destmixin,
     fileType: 'Mixin',
-    dryRun
+    dryRun,
   });
 
   // Moving mixin tests
@@ -59,6 +59,6 @@ module.exports.handler = async function handler(options) {
     sourceFile: sourceTest,
     destPath: destTest,
     fileType: 'Mixin Test',
-    dryRun
+    dryRun,
   });
 };

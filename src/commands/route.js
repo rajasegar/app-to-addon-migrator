@@ -49,7 +49,7 @@ module.exports.handler = async function handler(options) {
     sourceFile: sourceRoute,
     destPath: destRoute,
     fileType: 'Route',
-    dryRun
+    dryRun,
   });
 
   // Moving route template.hbs
@@ -65,9 +65,8 @@ module.exports.handler = async function handler(options) {
     sourceFile: sourceTemplate,
     destPath: destTemplate,
     fileType: 'Route Template',
-    dryRun
+    dryRun,
   });
-
 
   // Moving route tests
   const sourceTest = routeFolder
@@ -80,7 +79,7 @@ module.exports.handler = async function handler(options) {
     sourceFile: sourceTest,
     destPath: destTest,
     fileType: 'Route Test',
-    dryRun
+    dryRun,
   });
 
   // Move the controllers
@@ -95,7 +94,7 @@ module.exports.handler = async function handler(options) {
     sourceFile: sourceController,
     destPath: destController,
     fileType: 'Controller',
-    dryRun
+    dryRun,
   });
 
   // Moving controller tests
@@ -104,13 +103,12 @@ module.exports.handler = async function handler(options) {
     : `${controllerTestPath}/${routeName}-test.js`;
   const destControllerTest = `${packagePath}/tests/unit/controllers/${routeName}-test.js`;
 
-    
   MoveFile({
     deleteSource,
     fileName: routeName,
     sourceFile: sourceControllerTest,
     destPath: destControllerTest,
     fileType: 'Controller Test',
-    dryRun
+    dryRun,
   });
 };

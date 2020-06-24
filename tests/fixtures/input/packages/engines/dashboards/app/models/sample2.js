@@ -1,1 +1,1 @@
-export { default } from 'dashboards/models/sample2';
+export { default } from '@company/dashboard/models/sample2';

@@ -9,7 +9,7 @@ const CODEMOD_EXEC_PATH = path.join(PROJECT_ROOT, 'bin', 'atam-codemod-cli.js');
 const MoveFile = require('./move-file');
 const CreateAppExport = require('./create-app-export');
 
-module.exports = function (options) {
+module.exports = async function (options) {
   const componentPath = 'app/components';
   const {
     componentFolder,
@@ -38,17 +38,6 @@ module.exports = function (options) {
 
   const destComponent = `${packagePath}/addon/components/${componentName}.js`;
 
-  MoveFile({
-    deleteSource,
-    fileName: componentName,
-    sourceFile: sourceComponent,
-    destPath: destComponent,
-    fileType: 'Component',
-    dryRun
-  });
-
-  // Moving component template.hbs
-
   let sourceTemplate;
   if (pods) {
     sourceTemplate = componentFolder
@@ -61,6 +50,28 @@ module.exports = function (options) {
   }
   const destTemplate = `${packagePath}/addon/templates/components/${componentName}.hbs`;
 
+  await MoveFile({
+    deleteSource,
+    fileName: componentName,
+    sourceFile: sourceComponent,
+    destPath: destComponent,
+    fileType: 'Component',
+    dryRun
+  });
+  
+  if (fs.existsSync(sourceTemplate)) {
+    let relativePath = path.relative(destComponent, destTemplate);
+    let { dir, name } = path.parse(relativePath);
+    let layoutPath = path.join(dir, name);
+    await execa(CODEMOD_EXEC_PATH, [
+      'add-layout-property',
+      destComponent,
+      '--layoutPath',
+      layoutPath,
+    ]);
+    ok(`Success: Added layout property to the ${componentName}.js`);
+  }
+  
   MoveFile({
     deleteSource,
     fileName: componentName,

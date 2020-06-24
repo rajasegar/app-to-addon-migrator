@@ -15,7 +15,7 @@ module.exports = function (options) {
   log(destPath);
   if (!dryRun) {
     if (fs.existsSync(sourceFile)) {
-      fse
+      return fse
       .copy(sourceFile, destPath)
       .then(() => {
         ok(`Success: ${fileType} - ${fileName} moved`);

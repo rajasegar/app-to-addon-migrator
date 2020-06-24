@@ -19,9 +19,15 @@ module.exports = function (options) {
   log('----------------------------------- ');
 
   const destPath = `${packagePath}/app/${fileOptions.type}/${fileName}.${fileOptions.ext}`;
-  const addonName = path.basename(destination);
+
+  const packageFile = fs.readFileSync(`${packagePath}/package.json`);
+  const { name: packageName } = JSON.parse(packageFile);
+  const addonName = packageName || path.basename(destination);
+
   const fileContent = `export { default } from '${addonName}/${fileOptions.type}/${fileName}';`;
-  
+
+
+
 
   log(destPath);
   if (!dryRun) {

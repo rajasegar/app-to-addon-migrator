@@ -1,18 +1,19 @@
 'use strict';
 
-const fs = require('fs');
-const fse = require('fs-extra');
 const path = require('path');
 const execa = require('execa');
+const fs = require('fs');
+const { ok } = require('./logging');
 
 const PROJECT_ROOT = path.join(__dirname, '..', '..');
 const CODEMOD_EXEC_PATH = path.join(PROJECT_ROOT, 'bin', 'atam-codemod-cli.js');
 
-const { log, error, ok, warning } = require('./logging');
+const moveFile = require('./move-file');
+const createAppExport = require('./create-app-export');
 
-module.exports = function (options) {
+module.exports = async function (options) {
   const componentPath = 'app/components';
-  const { componentFolder, componentName, destination, dryRun, pods } = options;
+  const { componentFolder, componentName, destination, dryRun, pods, deleteSource } = options;
   const packagePath = path.join('.', destination) || 'packages/engines';
 
   // IMPORTANT NOTE: We're deliberately avoiding POD structure in engines
@@ -32,9 +33,6 @@ module.exports = function (options) {
 
   const destComponent = `${packagePath}/addon/components/${componentName}.js`;
 
-  log(sourceComponent);
-  log(destComponent);
-
   let sourceTemplate;
   if (pods) {
     sourceTemplate = componentFolder
@@ -47,51 +45,40 @@ module.exports = function (options) {
   }
   const destTemplate = `${packagePath}/addon/templates/components/${componentName}.hbs`;
 
-  log(sourceTemplate);
-  log(destTemplate);
+  await moveFile({
+    deleteSource,
+    fileName: componentName,
+    sourceFile: sourceComponent,
+    destPath: destComponent,
+    fileType: 'Component',
+    dryRun,
+  });
 
-  // Moving component.js
-  log('Moving component.js');
-  log('---------------');
-
-  if (!dryRun) {
-    fse
-      .copy(sourceComponent, destComponent)
-      .then(async () => {
-        // Adding layout property to the addon component file.
-        if (fs.existsSync(sourceTemplate)) {
-          let relativePath = path.relative(destComponent, destTemplate);
-          let { dir, name } = path.parse(relativePath);
-          let layoutPath = path.join(dir, name);
-          await execa(CODEMOD_EXEC_PATH, [
-            'add-layout-property',
-            destComponent,
-            '--layoutPath',
-            layoutPath,
-          ]);
-          ok(`Success: Added layout property to the ${componentName}.js`);
-        }
-        ok(`Success: Component ${componentName}.js moved`);
-      })
-      .catch((err) => error(err));
+  // Modify layout import for addon compoenent
+  if (fs.existsSync(sourceTemplate)) {
+    let relativePath = path.relative(destComponent, destTemplate);
+    let { dir, name } = path.parse(relativePath);
+    let layoutPath = path.join(dir, name);
+    await execa(CODEMOD_EXEC_PATH, [
+      'add-layout-property',
+      destComponent,
+      '--layoutPath',
+      layoutPath,
+    ]);
+    ok(`Success: Added layout property to the ${componentName}.js`);
   }
 
-  // Moving component template.hbs
-  log('\nMoving component template.hbs');
-  log('-------------------------');
-
-  if (!dryRun) {
-    fse
-      .copy(sourceTemplate, destTemplate)
-      .then(() => {
-        ok(`Success: Component Template ${componentName}.hbs moved`);
-      })
-      .catch((err) => error(err));
-  }
+  moveFile({
+    deleteSource,
+    fileName: componentName,
+    sourceFile: sourceTemplate,
+    destPath: destTemplate,
+    fileType: 'Component Template',
+    dryRun,
+  });
 
   // Moving component tests
-  log('\nMoving component tests');
-  log('------------------');
+
   let sourceTest;
   if (pods) {
     sourceTest = componentFolder
@@ -105,40 +92,25 @@ module.exports = function (options) {
 
   const destTest = `${packagePath}/tests/integration/components/${componentName}-test.js`;
 
-  log(sourceTest);
-  log(destTest);
-  if (!dryRun) {
-    if (fs.existsSync(sourceTest)) {
-      fse
-        .copy(sourceTest, destTest)
-        .then(() => {
-          ok(`Success: Component Test ${componentName}.hbs moved`);
-        })
-        .catch((err) => error(err));
-    } else {
-      warning(`WARNING: There are no integration tests for component ${componentName}`);
-    }
-  }
+  moveFile({
+    deleteSource,
+    fileName: componentName,
+    sourceFile: sourceTest,
+    destPath: destTest,
+    fileType: 'Component Test',
+    dryRun,
+  });
 
   // Create component assets to app folder in addon
-
-  log('\nCreating component assets in app folder ');
-  log('----------------------------------- ');
-
-  const appComponent = `${packagePath}/app/components/${componentName}.js`;
-  const packageFile = fs.readFileSync(`${packagePath}/package.json`);
-  const { name: packageName } = JSON.parse(packageFile);
-  const addonName = packageName || path.basename(destination);
-  const appComponentContent = `export { default } from '${addonName}/components/${componentName}';`;
-  log(appComponent);
-  if (!dryRun) {
-    fse
-      .outputFile(appComponent, appComponentContent)
-      .then(() => {
-        ok(`Success: Component ${componentName}.js created in app`);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }
+  createAppExport({
+    fileName: componentName,
+    fileOptions: {
+      ext: 'js',
+      type: 'components',
+    },
+    dryRun,
+    packagePath,
+    destination,
+    fileType: 'Component',
+  });
 };

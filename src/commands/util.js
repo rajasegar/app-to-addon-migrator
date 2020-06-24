@@ -1,5 +1,7 @@
 'use strict';
 
+const addDefaultOptions = require('../utils/add-default-options');
+
 module.exports.command = 'util [util-name] [destination]';
 
 module.exports.desc = 'Copy a util from app to addon';
@@ -18,78 +20,60 @@ module.exports.builder = function builder(yargs) {
     describe: 'The name of the util folder if it is namespaced within app/utils',
     type: 'string',
   });
+
+  addDefaultOptions(yargs);
 };
 
 module.exports.handler = async function handler(options) {
-  const fs = require('fs');
-  const fse = require('fs-extra');
   const path = require('path');
-  const { log, error, ok, warning } = require('../utils/logging');
+  const moveFile = require('../utils/move-file');
+  const createAppExport = require('../utils/create-app-export');
 
   const utilPath = 'app/utils';
-  const { utilName, destination, utilFolder, dryRun } = options;
+  const { utilName, destination, utilFolder, dryRun, deleteSource } = options;
   const packagePath = path.join('.', destination) || 'packages/engines';
 
   // Moving util.js
-  log('Moving util.js');
-  log('---------------');
   const sourceutil = utilFolder
     ? `${utilPath}/${utilFolder}/${utilName}.js`
     : `${utilPath}/${utilName}.js`;
   const destutil = `${packagePath}/addon/utils/${utilName}.js`;
 
-  log(sourceutil);
-  log(destutil);
-
-  if (!dryRun) {
-    fse
-      .copy(sourceutil, destutil)
-      .then(() => {
-        ok(`Success: util ${utilName}.js copied`);
-      })
-      .catch((err) => error(err));
-  }
+  moveFile({
+    deleteSource,
+    fileName: utilName,
+    sourceFile: sourceutil,
+    destPath: destutil,
+    fileType: 'Util',
+    dryRun,
+  });
 
   // Moving util tests
-  log('\nMoving util tests');
-  log('------------------');
   const sourceTest = utilFolder
     ? `tests/unit/utils/${utilFolder}/${utilName}-test.js`
     : `tests/unit/utils/${utilName}-test.js`;
   const destTest = `${packagePath}/tests/unit/utils/${utilName}-test.js`;
 
-  log(sourceTest);
-  log(destTest);
-  if (!dryRun) {
-    if (fs.existsSync(sourceTest)) {
-      fse
-        .copy(sourceTest, destTest)
-        .then(() => {
-          ok(`Success: util Test ${utilName}.hbs copied`);
-        })
-        .catch((err) => error(err));
-    } else {
-      warning(`WARNING: There are no unit tests for util ${utilName}`);
-    }
-  }
+  moveFile({
+    deleteSource,
+    fileName: utilName,
+    sourceFile: sourceTest,
+    destPath: destTest,
+    fileType: 'Util Test',
+    dryRun,
+  });
 
   // Create util assets to app folder in addon
 
-  log('\nCreating util assets in app folder ');
-  log('----------------------------------- ');
-
-  const apputil = `${packagePath}/app/utils/${utilName}.js`;
-  const addonName = path.basename(destination);
-  const utilBody = `export { default } from '${addonName}/utils/${utilName}';`;
-  log(apputil);
-  if (!dryRun) {
-    fse
-      .outputFile(apputil, utilBody)
-      .then(() => {
-        ok(`Success: util ${utilName}.js created in app`);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }
+  createAppExport({
+    fileName: utilName,
+    fileOptions: {
+      ext: 'js',
+      type: 'utils',
+    },
+    dryRun,
+    packagePath,
+    destination,
+    fileType: 'Util',
+  });
 };

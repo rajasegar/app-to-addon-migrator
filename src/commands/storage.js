@@ -1,5 +1,7 @@
 'use strict';
 
+const addDefaultOptions = require('../utils/add-default-options');
+
 module.exports.command = 'storage [storage-name] [destination]';
 
 module.exports.desc = 'Copy a storage from app to addon';
@@ -18,35 +20,31 @@ module.exports.builder = function builder(yargs) {
     describe: 'The name of the storage folder if it is namespaced within app/storages',
     type: 'string',
   });
+
+  addDefaultOptions(yargs);
 };
 
 module.exports.handler = async function handler(options) {
   const path = require('path');
 
-  const fse = require('fs-extra');
-  const { log, error, ok } = require('../utils/logging');
+  const moveFile = require('../utils/move-file');
 
   const storagePath = 'app/storages';
-  const { storageName, destination, storageFolder, dryRun } = options;
+  const { storageName, destination, storageFolder, dryRun, deleteSource } = options;
   const packagePath = path.join('.', destination) || 'packages/engines';
 
   // Moving storage.js
-  log('Moving storage.js');
-  log('---------------');
   const sourcestorage = storageFolder
     ? `${storagePath}/${storageFolder}/${storageName}.js`
     : `${storagePath}/${storageName}.js`;
   const deststorage = `${packagePath}/app/storages/${storageName}.js`;
 
-  log(sourcestorage);
-  log(deststorage);
-
-  if (!dryRun) {
-    fse
-      .copy(sourcestorage, deststorage)
-      .then(() => {
-        ok(`Success: storage ${storageName}.js copied`);
-      })
-      .catch((err) => error(err));
-  }
+  moveFile({
+    deleteSource,
+    fileName: storageName,
+    sourceFile: sourcestorage,
+    destPath: deststorage,
+    fileType: 'Storage',
+    dryRun,
+  });
 };

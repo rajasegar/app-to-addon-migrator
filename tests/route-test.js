@@ -17,12 +17,9 @@ QUnit.module('atam-cli', function (hooks) {
     hooks.afterEach(async function () {
       await fs.remove(path.join(FIXTURE_PATH, dest, 'addon/routes/sample.js'));
       await fs.remove(path.join(FIXTURE_PATH, dest, 'addon/templates/sample.hbs'));
-      await fs.remove(path.join(FIXTURE_PATH, dest, 'app/routes/sample.js'));
-      await fs.remove(path.join(FIXTURE_PATH, dest, 'app/templates/sample.js'));
       await fs.remove(path.join(FIXTURE_PATH, dest, 'tests/unit/routes/sample-test.js'));
 
       await fs.remove(path.join(FIXTURE_PATH, dest, 'addon/controllers/sample.js'));
-      await fs.remove(path.join(FIXTURE_PATH, dest, 'app/controllers/sample.js'));
       await fs.remove(path.join(FIXTURE_PATH, dest, 'tests/unit/controllers/sample-test.js'));
     });
 
@@ -33,14 +30,11 @@ QUnit.module('atam-cli', function (hooks) {
 
       assert.ok(fs.pathExistsSync(path.join(FIXTURE_PATH, dest, 'addon/routes/sample.js')));
       assert.ok(fs.pathExistsSync(path.join(FIXTURE_PATH, dest, 'addon/templates/sample.hbs')));
-      assert.ok(fs.pathExistsSync(path.join(FIXTURE_PATH, dest, 'app/routes/sample.js')));
-      assert.ok(fs.pathExistsSync(path.join(FIXTURE_PATH, dest, 'app/templates/sample.js')));
       assert.ok(
         fs.pathExistsSync(path.join(FIXTURE_PATH, dest, 'tests/unit/routes/sample-test.js'))
       );
 
       assert.ok(fs.pathExistsSync(path.join(FIXTURE_PATH, dest, 'addon/controllers/sample.js')));
-      assert.ok(fs.pathExistsSync(path.join(FIXTURE_PATH, dest, 'app/controllers/sample.js')));
       assert.ok(
         fs.pathExistsSync(path.join(FIXTURE_PATH, dest, 'tests/unit/controllers/sample-test.js'))
       );
@@ -56,14 +50,11 @@ QUnit.module('atam-cli', function (hooks) {
       assert.equal(result.exitCode, 0, 'exited with zero');
       assert.ok(fs.pathExistsSync(path.join(FIXTURE_PATH, dest, 'addon/routes/sample.js')));
       assert.ok(fs.pathExistsSync(path.join(FIXTURE_PATH, dest, 'addon/templates/sample.hbs')));
-      assert.ok(fs.pathExistsSync(path.join(FIXTURE_PATH, dest, 'app/routes/sample.js')));
-      assert.ok(fs.pathExistsSync(path.join(FIXTURE_PATH, dest, 'app/templates/sample.js')));
       assert.ok(
         fs.pathExistsSync(path.join(FIXTURE_PATH, dest, 'tests/unit/routes/sample-test.js'))
       );
 
       assert.ok(fs.pathExistsSync(path.join(FIXTURE_PATH, dest, 'addon/controllers/sample.js')));
-      assert.ok(fs.pathExistsSync(path.join(FIXTURE_PATH, dest, 'app/controllers/sample.js')));
       assert.ok(
         fs.pathExistsSync(path.join(FIXTURE_PATH, dest, 'tests/unit/controllers/sample-test.js'))
       );
@@ -76,14 +67,11 @@ QUnit.module('atam-cli', function (hooks) {
 
       assert.notOk(fs.pathExistsSync(path.join(FIXTURE_PATH, dest, 'addon/routes/sample.js')));
       assert.notOk(fs.pathExistsSync(path.join(FIXTURE_PATH, dest, 'addon/templates/sample.hbs')));
-      assert.notOk(fs.pathExistsSync(path.join(FIXTURE_PATH, dest, 'app/routes/sample.js')));
-      assert.notOk(fs.pathExistsSync(path.join(FIXTURE_PATH, dest, 'app/templates/sample.js')));
       assert.notOk(
         fs.pathExistsSync(path.join(FIXTURE_PATH, dest, 'tests/unit/routes/sample-test.js'))
       );
 
       assert.notOk(fs.pathExistsSync(path.join(FIXTURE_PATH, dest, 'addon/controllers/sample.js')));
-      assert.notOk(fs.pathExistsSync(path.join(FIXTURE_PATH, dest, 'app/controllers/sample.js')));
       assert.notOk(
         fs.pathExistsSync(path.join(FIXTURE_PATH, dest, 'tests/unit/controllers/sample-test.js'))
       );
@@ -96,11 +84,8 @@ QUnit.module('atam-cli', function (hooks) {
 
       assert.ok(fs.pathExistsSync(path.join(FIXTURE_PATH, dest, 'addon/routes/sample2.js')));
       assert.ok(fs.pathExistsSync(path.join(FIXTURE_PATH, dest, 'addon/templates/sample2.hbs')));
-      assert.ok(fs.pathExistsSync(path.join(FIXTURE_PATH, dest, 'app/routes/sample2.js')));
-      assert.ok(fs.pathExistsSync(path.join(FIXTURE_PATH, dest, 'app/templates/sample2.js')));
 
       assert.ok(fs.pathExistsSync(path.join(FIXTURE_PATH, dest, 'addon/controllers/sample2.js')));
-      assert.ok(fs.pathExistsSync(path.join(FIXTURE_PATH, dest, 'app/controllers/sample2.js')));
 
       assert.ok(result.stdout.includes('WARNING'));
     });

@@ -1,1 +1,2 @@
 tests/fixtures/**/*
+transforms/*/__testfixtures__/**/*

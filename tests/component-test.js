@@ -27,6 +27,7 @@ QUnit.module('atam-cli', function (hooks) {
 
       await fs.remove(path.join(FIXTURE_PATH, dest, 'addon/components/sample3.js'));
       await fs.remove(path.join(FIXTURE_PATH, dest, 'app/components/sample3.js'));
+      await fs.remove(path.join(FIXTURE_PATH, dest, 'addon/templates/components/sample3.hbs'));
       await fs.remove(
         path.join(FIXTURE_PATH, dest, 'tests/integration/components/sample3-test.js')
       );

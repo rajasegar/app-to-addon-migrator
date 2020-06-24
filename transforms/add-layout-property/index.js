@@ -23,7 +23,8 @@ const addLayoutProperty = (j, root) => {
       callee: { object: { name: 'Component' } },
     })
     .get(0);
-  let componentObject = component.node.arguments[0];
+  let componentArguments = component.node.arguments;
+  let componentObject = componentArguments[componentArguments.length - 1];
   let existingLayout = componentObject.properties.findIndex((path) => path.key.name === 'layout');
   if (existingLayout !== -1) {
     componentObject.properties.splice(existingLayout, 1);

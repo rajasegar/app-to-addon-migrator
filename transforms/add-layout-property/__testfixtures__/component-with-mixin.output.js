@@ -1,8 +1,12 @@
 import Component from '@ember/component';
 import { run } from '@ember/runloop';
 import { set } from '@ember/object';
+import someMixin from 'path/of/mixin';
 
-export default Component.extend({
+import layout from '../../templates/components/file-name';
+
+export default Component.extend(someMixin, {
+  layout,
   classNames: ['__page-layout__page-wrapper'],
   classNameBindings: ['sidebarEnabled:sidebar-present'],
   sidebarEnabled: false,

@@ -16,6 +16,7 @@ atam-codemod add-layout-property path/of/files/ or/some**/*glob.js
 
 <!--FIXTURES_TOC_START-->
 * [basic](#basic)
+* [component-with-mixin](#component-with-mixin)
 * [import-exist-end](#import-exist-end)
 * [import-property-exist](#import-property-exist)
 <!--FIXTURES_TOC_END-->
@@ -29,7 +30,6 @@ atam-codemod add-layout-property path/of/files/ or/some**/*glob.js
 import Component from '@ember/component';
 import { run } from '@ember/runloop';
 import { set } from '@ember/object';
-import { inject as service } from '@ember/service';
 
 export default Component.extend({
   classNames: ['__page-layout__page-wrapper'],
@@ -58,11 +58,73 @@ export default Component.extend({
 import Component from '@ember/component';
 import { run } from '@ember/runloop';
 import { set } from '@ember/object';
-import { inject as service } from '@ember/service';
 
 import layout from '../../templates/components/file-name';
 
 export default Component.extend({
+  layout,
+  classNames: ['__page-layout__page-wrapper'],
+  classNameBindings: ['sidebarEnabled:sidebar-present'],
+  sidebarEnabled: false,
+  contentSidebarEnabled: false,
+
+  didRender() {
+    this._super(...arguments);
+    this.interactivityTracking.trackOnce('FirstWrapperRender');
+  },
+
+  actions: {
+    showHideSidebar(state) {
+      run.next(() => {
+        set(this, 'sidebarEnabled', state);
+      });
+    }
+  }
+});
+
+```
+---
+<a id="component-with-mixin">**component-with-mixin**</a>
+
+**Input** (<small>[component-with-mixin.input.js](transforms/add-layout-property/__testfixtures__/component-with-mixin.input.js)</small>):
+```js
+import Component from '@ember/component';
+import { run } from '@ember/runloop';
+import { set } from '@ember/object';
+import someMixin from 'path/of/mixin';
+
+export default Component.extend(someMixin, {
+  classNames: ['__page-layout__page-wrapper'],
+  classNameBindings: ['sidebarEnabled:sidebar-present'],
+  sidebarEnabled: false,
+  contentSidebarEnabled: false,
+
+  didRender() {
+    this._super(...arguments);
+    this.interactivityTracking.trackOnce('FirstWrapperRender');
+  },
+
+  actions: {
+    showHideSidebar(state) {
+      run.next(() => {
+        set(this, 'sidebarEnabled', state);
+      });
+    }
+  }
+});
+
+```
+
+**Output** (<small>[component-with-mixin.output.js](transforms/add-layout-property/__testfixtures__/component-with-mixin.output.js)</small>):
+```js
+import Component from '@ember/component';
+import { run } from '@ember/runloop';
+import { set } from '@ember/object';
+import someMixin from 'path/of/mixin';
+
+import layout from '../../templates/components/file-name';
+
+export default Component.extend(someMixin, {
   layout,
   classNames: ['__page-layout__page-wrapper'],
   classNameBindings: ['sidebarEnabled:sidebar-present'],
@@ -92,7 +154,6 @@ export default Component.extend({
 import Component from '@ember/component';
 import { run } from '@ember/runloop';
 import { set } from '@ember/object';
-import { inject as service } from '@ember/service';
 import layout from './template';
 
 export default Component.extend({
@@ -122,7 +183,6 @@ export default Component.extend({
 import Component from '@ember/component';
 import { run } from '@ember/runloop';
 import { set } from '@ember/object';
-import { inject as service } from '@ember/service';
 import layout from '../../templates/components/file-name';
 
 export default Component.extend({
@@ -156,7 +216,6 @@ import Component from '@ember/component';
 import { run } from '@ember/runloop';
 import layout from './template';
 import { set } from '@ember/object';
-import { inject as service } from '@ember/service';
 
 export default Component.extend({
   classNames: ['__page-layout__page-wrapper'],
@@ -185,9 +244,8 @@ export default Component.extend({
 ```js
 import Component from '@ember/component';
 import { run } from '@ember/runloop';
-import { set } from '@ember/object';
-import { inject as service } from '@ember/service';
 import layout from '../../templates/components/file-name';
+import { set } from '@ember/object';
 
 export default Component.extend({
   layout,

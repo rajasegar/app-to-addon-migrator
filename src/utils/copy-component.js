@@ -3,6 +3,7 @@
 const path = require('path');
 const execa = require('execa');
 const fs = require('fs');
+const { ok } = require('./logging');
 
 const PROJECT_ROOT = path.join(__dirname, '..', '..');
 const CODEMOD_EXEC_PATH = path.join(PROJECT_ROOT, 'bin', 'atam-codemod-cli.js');
@@ -60,6 +61,7 @@ module.exports = async function (options) {
     dryRun
   });
   
+  // Modify layout import for addon compoenent
   if (fs.existsSync(sourceTemplate)) {
     let relativePath = path.relative(destComponent, destTemplate);
     let { dir, name } = path.parse(relativePath);

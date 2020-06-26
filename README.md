@@ -72,7 +72,7 @@ packages/engines/dashboards-engine/addon/templates/default.hbs
 ```
 
 ### skip-tests
-If you don't want to move the tests to the addon initially to avoid the overhead use the `--skip-tests` or `-st` option.
+If you don't want to move the tests to the addon initially to avoid the overhead use the `--skip-tests` or `--st` option.
 
 ```
 atam component ui-component/button-component packages/engines/dashboards-engine --skip-tests
@@ -134,7 +134,7 @@ Options:
   --dry-run, -d  Dry Run: Verify the movement without executing        [boolean]
   --pods, -p     Specify that the source components use PODS structure
                                                        [boolean] [default: true]
-  --skip-tests, -st  Keep tests in host: Convert and keep the tests in the host app itself? (default: no)        [boolean] [default: false]
+  --skip-tests, --st  Keep tests in host: Convert and keep the tests in the host app itself? (default: no)        [boolean] [default: false]
 
 
 ```

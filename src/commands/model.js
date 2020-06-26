@@ -73,6 +73,7 @@ module.exports.handler = async function handler(options) {
   // Create model assets to app folder in addon
   createAppExport({
     fileName: modelName,
+    sourceFile: sourcemodel,
     fileOptions: {
       ext: 'js',
       type: 'models',

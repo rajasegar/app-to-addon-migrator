@@ -57,6 +57,7 @@ module.exports.handler = async function handler(options) {
 
   createAppExport({
     fileName: constantName,
+    sourceFile: sourceconstant,
     fileOptions: {
       ext: 'js',
       type: 'constants',

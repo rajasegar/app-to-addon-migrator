@@ -73,6 +73,7 @@ module.exports.handler = async function handler(options) {
 
   createAppExport({
     fileName: adapterName,
+    sourceFile: sourceadapter,
     fileOptions: {
       ext: 'js',
       type: 'adapters',

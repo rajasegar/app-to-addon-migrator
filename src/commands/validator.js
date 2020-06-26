@@ -73,6 +73,7 @@ module.exports.handler = async function handler(options) {
   // Create validator assets to app folder in addon
   createAppExport({
     fileName: validatorName,
+    sourceFile: sourcevalidator,
     fileOptions: {
       ext: 'js',
       type: 'validators',

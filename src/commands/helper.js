@@ -72,6 +72,7 @@ module.exports.handler = async function handler(options) {
   // Create helper assets to app folder in addon
   createAppExport({
     fileName: helperName,
+    sourceFile: sourcehelper,
     fileOptions: {
       ext: 'js',
       type: 'helpers',

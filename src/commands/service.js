@@ -73,6 +73,7 @@ module.exports.handler = async function handler(options) {
 
   createAppExport({
     fileName: serviceName,
+    sourceFile: sourceservice,
     fileOptions: {
       ext: 'js',
       type: 'services',

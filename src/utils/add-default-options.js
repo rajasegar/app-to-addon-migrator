@@ -10,7 +10,7 @@ module.exports = function (yargs) {
   });
 
   yargs.option('skip-tests', {
-    alias: 'ktih',
+    alias: 'st',
     demandOption: false,
     describe: 'Keeps the tests in host app under the addon name',
     type: 'boolean',

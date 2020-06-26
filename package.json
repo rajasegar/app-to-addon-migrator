@@ -13,7 +13,7 @@
     "src"
   ],
   "scripts": {
-    "test": "qunit tests/*-test.js",
+    "test": "qunit tests/*-test.js tests/**/*-test.js",
     "test:codemod": "codemod-cli test",
     "codemod:update-docs": "codemod-cli update-docs",
     "coverage": "nyc --reporter=lcov --reporter=text-summary npm run test",

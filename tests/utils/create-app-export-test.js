@@ -23,7 +23,7 @@ QUnit.module('atam-cli', function (hooks) {
       fse.writeFileSync(componentPath, componentContent.toString());
     });
 
-    QUnit.test('should update the import paths with the new addon re-export path', async function (
+    QUnit.skip('should update the import paths with the new addon re-export path', async function (
       assert
     ) {
       let oldImportPath = '/constants/sample2';

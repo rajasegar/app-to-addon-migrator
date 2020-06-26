@@ -12,9 +12,9 @@ QUnit.module('atam-cli', function (hooks) {
     process.chdir(FIXTURE_PATH);
   });
 
-  QUnit.module('#keepTestsInHost validator', function () {
+  QUnit.module('#skipTests validator', function () {
     QUnit.test(
-      'should move the tests inside the addon itself if keepTestsInHost is false',
+      'should move the tests inside the addon itself if skipTests is false',
       async function (assert) {
         let sourceFile = 'tests/integration/components/sample3/component-test.js';
         let destPath = 'packages/engines/dashboards/tests/integration/components/sample3-test.js';
@@ -24,7 +24,7 @@ QUnit.module('atam-cli', function (hooks) {
           destPath,
           fileType: 'Component Test',
           deleteSource: false,
-          keepTestsInHost: false,
+          skipTests: false,
           dryRun: false,
         };
         await MoveFile(options);
@@ -34,7 +34,7 @@ QUnit.module('atam-cli', function (hooks) {
     );
 
     QUnit.test(
-      'should move the non test entity inside the addon itself even if keepTestsInHost is true',
+      'should move the non test entity inside the addon itself even if skipTests is true',
       async function (assert) {
         let sourceFile = 'app/components/sample3/component.js';
         let destPath = 'packages/engines/dashboards/addon/components/sample3.js';
@@ -44,7 +44,7 @@ QUnit.module('atam-cli', function (hooks) {
           destPath,
           fileType: 'Component',
           deleteSource: false,
-          keepTestsInHost: true,
+          skipTests: true,
           dryRun: false,
         };
         await MoveFile(options);
@@ -54,7 +54,7 @@ QUnit.module('atam-cli', function (hooks) {
     );
 
     QUnit.test(
-      'should move the tests inside the host app under the addon structure if keepTestsInHost is true',
+      'should move the tests inside the host app under the addon structure if skipTests is true',
       async function (assert) {
         let sourceFile = 'tests/integration/components/sample3/component-test.js';
         let destPath = 'packages/engines/dashboards/tests/integration/components/sample3-test.js';
@@ -64,7 +64,7 @@ QUnit.module('atam-cli', function (hooks) {
           destPath,
           fileType: 'Component Test',
           deleteSource: false,
-          keepTestsInHost: true,
+          skipTests: true,
           dryRun: false,
         };
         await MoveFile(options);

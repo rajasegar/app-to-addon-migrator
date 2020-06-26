@@ -28,7 +28,7 @@ module.exports.handler = async function handler(options) {
   const moveFile = require('../utils/move-file');
   const createAppExport = require('../utils/create-app-export');
 
-  const { serviceName, destination, serviceFolder, dryRun, deleteSource } = options;
+  const { serviceName, destination, serviceFolder, dryRun } = options;
 
   const servicePath = 'app/services';
   const packagePath = path.join('.', destination) || 'packages/engines';
@@ -39,14 +39,17 @@ module.exports.handler = async function handler(options) {
     : `${servicePath}/${serviceName}.js`;
   const destservice = `${packagePath}/addon/services/${serviceName}.js`;
 
-  moveFile({
-    deleteSource,
-    fileName: serviceName,
-    sourceFile: sourceservice,
-    destPath: destservice,
-    fileType: 'Service',
-    dryRun,
-  });
+  moveFile(
+    Object.assign(
+      {
+        fileName: serviceName,
+        sourceFile: sourceservice,
+        destPath: destservice,
+        fileType: 'Service',
+      },
+      options
+    )
+  );
 
   // Moving service tests
   const sourceTest = serviceFolder
@@ -54,14 +57,17 @@ module.exports.handler = async function handler(options) {
     : `tests/unit/services/${serviceName}-test.js`;
   const destTest = `${packagePath}/tests/unit/services/${serviceName}-test.js`;
 
-  moveFile({
-    deleteSource,
-    fileName: serviceName,
-    sourceFile: sourceTest,
-    destPath: destTest,
-    fileType: 'Service',
-    dryRun,
-  });
+  moveFile(
+    Object.assign(
+      {
+        fileName: serviceName,
+        sourceFile: sourceTest,
+        destPath: destTest,
+        fileType: 'Service',
+      },
+      options
+    )
+  );
 
   // Create service assets to app folder in addon
 

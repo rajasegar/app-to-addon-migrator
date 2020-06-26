@@ -31,7 +31,7 @@ module.exports.handler = async function handler(options) {
 
   const modelPath = 'app/models';
 
-  const { modelName, destination, modelFolder, dryRun, deleteSource } = options;
+  const { modelName, destination, modelFolder, dryRun } = options;
   const packagePath = path.join('.', destination) || 'packages/engines';
 
   // Moving model.js
@@ -40,14 +40,17 @@ module.exports.handler = async function handler(options) {
     : `${modelPath}/${modelName}.js`;
   const destmodel = `${packagePath}/addon/models/${modelName}.js`;
 
-  moveFile({
-    deleteSource,
-    fileName: modelName,
-    sourceFile: sourcemodel,
-    destPath: destmodel,
-    fileType: 'Model',
-    dryRun,
-  });
+  moveFile(
+    Object.assign(
+      {
+        fileName: modelName,
+        sourceFile: sourcemodel,
+        destPath: destmodel,
+        fileType: 'Model',
+      },
+      options
+    )
+  );
 
   // Moving model tests
   const sourceTest = modelFolder
@@ -55,14 +58,17 @@ module.exports.handler = async function handler(options) {
     : `tests/unit/models/${modelName}-test.js`;
   const destTest = `${packagePath}/tests/unit/models/${modelName}-test.js`;
 
-  moveFile({
-    deleteSource,
-    fileName: modelName,
-    sourceFile: sourceTest,
-    destPath: destTest,
-    fileType: 'Model Test',
-    dryRun,
-  });
+  moveFile(
+    Object.assign(
+      {
+        fileName: modelName,
+        sourceFile: sourceTest,
+        destPath: destTest,
+        fileType: 'Model Test',
+      },
+      options
+    )
+  );
 
   // Create model assets to app folder in addon
   createAppExport({

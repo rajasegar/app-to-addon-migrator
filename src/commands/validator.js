@@ -29,7 +29,7 @@ module.exports.handler = async function handler(options) {
   const moveFile = require('../utils/move-file');
   const createAppExport = require('../utils/create-app-export');
 
-  const { validatorName, destination, validatorFolder, dryRun, deleteSource } = options;
+  const { validatorName, destination, validatorFolder, dryRun } = options;
 
   const validatorPath = 'app/validators';
   const packagePath = path.join('.', destination) || 'packages/engines';
@@ -40,28 +40,35 @@ module.exports.handler = async function handler(options) {
     : `${validatorPath}/${validatorName}.js`;
   const destvalidator = `${packagePath}/addon/validators/${validatorName}.js`;
 
-  moveFile({
-    deleteSource,
-    fileName: validatorName,
-    sourceFile: sourcevalidator,
-    destPath: destvalidator,
-    fileType: 'Validator',
-    dryRun,
-  });
+  moveFile(
+    Object.assign(
+      {
+        fileName: validatorName,
+        sourceFile: sourcevalidator,
+        destPath: destvalidator,
+        fileType: 'Validator',
+      },
+      options
+    )
+  );
 
   // Moving validator tests
   const sourceTest = validatorFolder
     ? `tests/unit/validators/${validatorFolder}/${validatorName}-test.js`
     : `tests/unit/validators/${validatorName}-test.js`;
   const destTest = `${packagePath}/tests/unit/validators/${validatorName}-test.js`;
-  moveFile({
-    deleteSource,
-    fileName: validatorName,
-    sourceFile: sourceTest,
-    destPath: destTest,
-    fileType: 'Validator Test',
-    dryRun,
-  });
+
+  moveFile(
+    Object.assign(
+      {
+        fileName: validatorName,
+        sourceFile: sourceTest,
+        destPath: destTest,
+        fileType: 'Validator Test',
+      },
+      options
+    )
+  );
 
   // Create validator assets to app folder in addon
   createAppExport({

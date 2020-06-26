@@ -8,4 +8,12 @@ module.exports = function (yargs) {
     type: 'boolean',
     default: false,
   });
+
+  yargs.option('skip-tests', {
+    alias: 'st',
+    demandOption: false,
+    describe: 'Keeps the tests in host app under the addon name',
+    type: 'boolean',
+    default: false,
+  });
 };

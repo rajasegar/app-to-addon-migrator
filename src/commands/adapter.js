@@ -28,7 +28,7 @@ module.exports.handler = async function handler(options) {
   const moveFile = require('../utils/move-file');
   const createAppExport = require('../utils/create-app-export');
 
-  const { adapterName, destination, adapterFolder, dryRun, deleteSource } = options;
+  const { adapterName, destination, adapterFolder, dryRun } = options;
 
   const adapterPath = 'app/adapters';
   const packagePath = path.join('.', destination) || 'packages/engines';
@@ -39,14 +39,17 @@ module.exports.handler = async function handler(options) {
     : `${adapterPath}/${adapterName}.js`;
   const destadapter = `${packagePath}/addon/adapters/${adapterName}.js`;
 
-  moveFile({
-    deleteSource,
-    fileName: adapterName,
-    sourceFile: sourceadapter,
-    destPath: destadapter,
-    fileType: 'Adapter',
-    dryRun,
-  });
+  moveFile(
+    Object.assign(
+      {
+        fileName: adapterName,
+        sourceFile: sourceadapter,
+        destPath: destadapter,
+        fileType: 'Adapter',
+      },
+      options
+    )
+  );
 
   // Moving adapter tests
   const sourceTest = adapterFolder
@@ -54,14 +57,17 @@ module.exports.handler = async function handler(options) {
     : `tests/unit/adapters/${adapterName}-test.js`;
   const destTest = `${packagePath}/tests/unit/adapters/${adapterName}-test.js`;
 
-  moveFile({
-    deleteSource,
-    fileName: adapterName,
-    sourceFile: sourceTest,
-    destPath: destTest,
-    fileType: 'Adapter Test',
-    dryRun,
-  });
+  moveFile(
+    Object.assign(
+      {
+        fileName: adapterName,
+        sourceFile: sourceTest,
+        destPath: destTest,
+        fileType: 'Adapter Test',
+      },
+      options
+    )
+  );
 
   // Create adapter assets to app folder in addon
 

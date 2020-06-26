@@ -71,10 +71,28 @@ packages/engines/dashboards-engine/addon/templates/default.hbs
 ...
 ```
 
-### Folder namespace 
-If your source entities are namespaced within a folder you can use the `-f` option to specify the same 
-before copying. 
-Say for example you want to move a component called `widget` from `app/components/dashboards` 
+### skip-tests
+If you don't want to move the tests to the addon initially to avoid the overhead use the `--skip-tests` or `--st` option.
+
+```
+atam component ui-component/button-component packages/engines/dashboards-engine --skip-tests
+```
+
+This will move the tests from the original file structure to a new folder under the addon namespace
+inside the host app test folder:
+
+```
+Moving component-test.js
+-----------------------
+app/tests/integration/components/ui-component/button-component/component-test.js
+app/tests/packages/engines/dashboards-engine/tests/integration/components/ui-component/button-component-test.js
+
+...
+```
+### Folder namespace
+If your source entities are namespaced within a folder you can use the `-f` option to specify the same
+before copying.
+Say for example you want to move a component called `widget` from `app/components/dashboards`
 
 ```
 atam component widget packages/engines/dashboards-engine -f dashboards
@@ -116,6 +134,7 @@ Options:
   --dry-run, -d  Dry Run: Verify the movement without executing        [boolean]
   --pods, -p     Specify that the source components use PODS structure
                                                        [boolean] [default: true]
+  --skip-tests, --st  Keep tests in host: Convert and keep the tests in the host app itself? (default: no)        [boolean] [default: false]
 
 
 ```

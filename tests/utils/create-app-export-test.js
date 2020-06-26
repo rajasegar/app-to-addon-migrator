@@ -26,8 +26,8 @@ QUnit.module('atam-cli', function (hooks) {
     QUnit.test('should update the import paths with the new addon re-export path', async function (
       assert
     ) {
-      let oldImportPath = '/constants/sample';
-      let newImportPath = '@company/dashboard/constants/sample';
+      let oldImportPath = '/constants/sample2';
+      let newImportPath = '@company/dashboard/constants/sample2';
       let componentContentAsString = componentContent.toString();
       assert.ok(fse.pathExistsSync(componentPath));
 
@@ -35,8 +35,8 @@ QUnit.module('atam-cli', function (hooks) {
       assert.notOk(componentContentAsString.includes(newImportPath));
 
       let options = {
-        fileName: 'sample',
-        sourceFile: 'app/constants/sample.js',
+        fileName: 'sample2',
+        sourceFile: 'app/constants/sample2.js',
         fileOptions: {
           ext: 'js',
           type: 'constants',

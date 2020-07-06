@@ -38,27 +38,20 @@ module.exports = function (options) {
           const [, filePath] = sourcePath.split(entityPath);
           const oldImportPath = `${entityPath}${filePath}`;
 
-          log('\n Run the below command to update the imports');
-          log('----------------------------------- ');
-          log(
-            `\natam-codemod update-imports path/of/files/ --oldImportPath ${oldImportPath} --newImportPath ${exportPath}`
-          );
+          log(`\nUpdating the import paths matching ${oldImportPath} to ${exportPath}`);
 
-          // Commenting it out as the ignore pattern and config options are not supported by codemod-cli.
-          // log(`\nUpdating the import paths matching ${oldImportPath} to ${exportPath}`);
-          let updateImports = false;
-          if (updateImports) {
-            await execa(CODEMOD_EXEC_PATH, [
-              'update-imports',
-              './**/*.js',
-              '--oldImportPath',
-              oldImportPath,
-              '--newImportPath',
-              exportPath,
-            ]);
+          await execa(CODEMOD_EXEC_PATH, [
+            'update-imports',
+            './**/*.js',
+            '--ignore-config',
+            '.gitignore',
+            '--oldImportPath',
+            oldImportPath,
+            '--newImportPath',
+            exportPath,
+          ]);
 
-            ok(`Success: Updated the import paths to ${exportPath}`);
-          }
+          ok(`Success: Updated the import paths to ${exportPath}`);
         }
         ok(`Success: ${fileType} - ${fileName} created in app`);
       })

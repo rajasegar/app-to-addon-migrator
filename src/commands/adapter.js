@@ -34,7 +34,7 @@ module.exports.handler = async function handler(options) {
   const packagePath = path.join('.', destination) || 'packages/engines';
 
   // Moving adapter.js
-  const sourceadapter = adapterFolder
+  const sourceAdapter = adapterFolder
     ? `${adapterPath}/${adapterFolder}/${adapterName}.js`
     : `${adapterPath}/${adapterName}.js`;
   const destadapter = `${packagePath}/addon/adapters/${adapterName}.js`;
@@ -43,7 +43,7 @@ module.exports.handler = async function handler(options) {
     Object.assign(
       {
         fileName: adapterName,
-        sourceFile: sourceadapter,
+        sourceFile: sourceAdapter,
         destPath: destadapter,
         fileType: 'Adapter',
       },
@@ -73,7 +73,7 @@ module.exports.handler = async function handler(options) {
 
   createAppExport({
     fileName: adapterName,
-    sourceFile: sourceadapter,
+    sourceFile: sourceAdapter,
     fileOptions: {
       ext: 'js',
       type: 'adapters',

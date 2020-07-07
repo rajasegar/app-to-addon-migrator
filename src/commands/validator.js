@@ -35,7 +35,7 @@ module.exports.handler = async function handler(options) {
   const packagePath = path.join('.', destination) || 'packages/engines';
 
   // Moving validator.js
-  const sourcevalidator = validatorFolder
+  const sourceValidator = validatorFolder
     ? `${validatorPath}/${validatorFolder}/${validatorName}.js`
     : `${validatorPath}/${validatorName}.js`;
   const destvalidator = `${packagePath}/addon/validators/${validatorName}.js`;
@@ -44,7 +44,7 @@ module.exports.handler = async function handler(options) {
     Object.assign(
       {
         fileName: validatorName,
-        sourceFile: sourcevalidator,
+        sourceFile: sourceValidator,
         destPath: destvalidator,
         fileType: 'Validator',
       },
@@ -73,7 +73,7 @@ module.exports.handler = async function handler(options) {
   // Create validator assets to app folder in addon
   createAppExport({
     fileName: validatorName,
-    sourceFile: sourcevalidator,
+    sourceFile: sourceValidator,
     fileOptions: {
       ext: 'js',
       type: 'validators',

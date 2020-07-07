@@ -34,7 +34,7 @@ module.exports.handler = async function handler(options) {
   const packagePath = path.join('.', destination) || 'packages/engines';
 
   // Moving mixin.js
-  const sourcemixin = mixinFolder
+  const sourceMixin = mixinFolder
     ? `${mixinPath}/${mixinFolder}/${mixinName}.js`
     : `${mixinPath}/${mixinName}.js`;
   const destmixin = `${packagePath}/addon/mixins/${mixinName}.js`;
@@ -43,7 +43,7 @@ module.exports.handler = async function handler(options) {
     Object.assign(
       {
         fileName: mixinName,
-        sourceFile: sourcemixin,
+        sourceFile: sourceMixin,
         destPath: destmixin,
         fileType: 'Mixin',
       },
@@ -73,7 +73,7 @@ module.exports.handler = async function handler(options) {
 
   createAppExport({
     fileName: mixinName,
-    sourceFile: sourcemixin,
+    sourceFile: sourceMixin,
     fileOptions: {
       ext: 'js',
       type: 'mixins',

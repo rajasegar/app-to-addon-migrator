@@ -34,7 +34,7 @@ module.exports.handler = async function handler(options) {
   const packagePath = path.join('.', destination) || 'packages/engines';
 
   // Moving helper.js
-  const sourcehelper = helperFolder
+  const sourceHelper = helperFolder
     ? `${helperPath}/${helperFolder}/${helperName}.js`
     : `${helperPath}/${helperName}.js`;
   const desthelper = `${packagePath}/addon/helpers/${helperName}.js`;
@@ -43,7 +43,7 @@ module.exports.handler = async function handler(options) {
     Object.assign(
       {
         fileName: helperName,
-        sourceFile: sourcehelper,
+        sourceFile: sourceHelper,
         destPath: desthelper,
         fileType: 'Helper',
       },
@@ -72,7 +72,7 @@ module.exports.handler = async function handler(options) {
   // Create helper assets to app folder in addon
   createAppExport({
     fileName: helperName,
-    sourceFile: sourcehelper,
+    sourceFile: sourceHelper,
     fileOptions: {
       ext: 'js',
       type: 'helpers',

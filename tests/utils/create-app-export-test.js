@@ -8,6 +8,7 @@ const FIXTURE_PATH = path.join(__dirname, '..', 'fixtures/input');
 
 QUnit.module('atam-cli', function (hooks) {
   let componentPath, componentContent;
+  const dest = 'packages/engines/dashboards';
 
   hooks.beforeEach(function () {
     process.chdir(FIXTURE_PATH);
@@ -15,8 +16,9 @@ QUnit.module('atam-cli', function (hooks) {
     componentContent = fse.readFileSync(componentPath);
   });
 
-  hooks.afterEach(function () {
+  hooks.afterEach(async function () {
     fse.writeFileSync(componentPath, componentContent.toString());
+    await fse.remove(path.join(FIXTURE_PATH, dest, 'app/constants/sample2.js'));
   });
 
   QUnit.module('#updateImports validator', function () {
@@ -38,8 +40,8 @@ QUnit.module('atam-cli', function (hooks) {
           ext: 'js',
           type: 'constants',
         },
-        packagePath: 'packages/engines/dashboards',
-        destination: 'packages/engines/dashboards',
+        packagePath: dest,
+        destination: dest,
         fileType: 'Constant',
       };
 
@@ -80,8 +82,8 @@ QUnit.module('atam-cli', function (hooks) {
             ext: 'js',
             type: 'constants',
           },
-          packagePath: 'packages/engines/dashboards',
-          destination: 'packages/engines/dashboards',
+          packagePath: dest,
+          destination: dest,
           fileType: 'Constant',
         };
 

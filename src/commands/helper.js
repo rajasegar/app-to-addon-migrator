@@ -27,6 +27,7 @@ module.exports.builder = function builder(yargs) {
 module.exports.handler = async function handler(options) {
   const path = require('path');
   const moveFile = require('../utils/move-file');
+  const moveDependentFiles = require('../utils/move-dependent-files');
   const createAppExport = require('../utils/create-app-export');
 
   const helperPath = 'app/helpers';
@@ -37,14 +38,14 @@ module.exports.handler = async function handler(options) {
   const sourceHelper = helperFolder
     ? `${helperPath}/${helperFolder}/${helperName}.js`
     : `${helperPath}/${helperName}.js`;
-  const desthelper = `${packagePath}/addon/helpers/${helperName}.js`;
+  const destHelper = `${packagePath}/addon/helpers/${helperName}.js`;
 
   moveFile(
     Object.assign(
       {
         fileName: helperName,
         sourceFile: sourceHelper,
-        destPath: desthelper,
+        destPath: destHelper,
         fileType: 'Helper',
       },
       options
@@ -82,4 +83,15 @@ module.exports.handler = async function handler(options) {
     destination,
     fileType: 'Helper',
   });
+
+  // Move helper dependent files that are imported
+  await moveDependentFiles(
+    Object.assign(
+      {
+        sourceFile: destHelper,
+        destination,
+      },
+      options
+    )
+  );
 };

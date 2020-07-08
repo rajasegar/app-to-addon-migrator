@@ -27,6 +27,7 @@ module.exports.builder = function builder(yargs) {
 module.exports.handler = async function handler(options) {
   const path = require('path');
   const moveFile = require('../utils/move-file');
+  const moveDependentFiles = require('../utils/move-dependent-files');
   const createAppExport = require('../utils/create-app-export');
 
   const utilPath = 'app/utils';
@@ -37,14 +38,14 @@ module.exports.handler = async function handler(options) {
   const sourceUtil = utilFolder
     ? `${utilPath}/${utilFolder}/${utilName}.js`
     : `${utilPath}/${utilName}.js`;
-  const destutil = `${packagePath}/addon/utils/${utilName}.js`;
+  const destUtil = `${packagePath}/addon/utils/${utilName}.js`;
 
   moveFile(
     Object.assign(
       {
         fileName: utilName,
         sourceFile: sourceUtil,
-        destPath: destutil,
+        destPath: destUtil,
         fileType: 'Util',
       },
       options
@@ -83,4 +84,15 @@ module.exports.handler = async function handler(options) {
     destination,
     fileType: 'Util',
   });
+
+  // Move util dependent files that are imported
+  await moveDependentFiles(
+    Object.assign(
+      {
+        sourceFile: destUtil,
+        destination,
+      },
+      options
+    )
+  );
 };

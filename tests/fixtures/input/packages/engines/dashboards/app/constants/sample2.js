@@ -1,1 +1,0 @@
-export { default } from '@company/dashboard/constants/sample2';

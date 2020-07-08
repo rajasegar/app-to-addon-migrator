@@ -27,6 +27,7 @@ module.exports.builder = function builder(yargs) {
 module.exports.handler = async function handler(options) {
   const path = require('path');
   const moveFile = require('../utils/move-file');
+  const moveDependentFiles = require('../utils/move-dependent-files');
   const createAppExport = require('../utils/create-app-export');
 
   const mixinPath = 'app/mixins';
@@ -37,14 +38,14 @@ module.exports.handler = async function handler(options) {
   const sourceMixin = mixinFolder
     ? `${mixinPath}/${mixinFolder}/${mixinName}.js`
     : `${mixinPath}/${mixinName}.js`;
-  const destmixin = `${packagePath}/addon/mixins/${mixinName}.js`;
+  const destMixin = `${packagePath}/addon/mixins/${mixinName}.js`;
 
   moveFile(
     Object.assign(
       {
         fileName: mixinName,
         sourceFile: sourceMixin,
-        destPath: destmixin,
+        destPath: destMixin,
         fileType: 'Mixin',
       },
       options
@@ -83,4 +84,15 @@ module.exports.handler = async function handler(options) {
     destination,
     fileType: 'Mixin',
   });
+
+  // Move mixin dependent files that are imported
+  await moveDependentFiles(
+    Object.assign(
+      {
+        sourceFile: destMixin,
+        destination,
+      },
+      options
+    )
+  );
 };

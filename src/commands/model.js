@@ -27,6 +27,7 @@ module.exports.builder = function builder(yargs) {
 module.exports.handler = async function handler(options) {
   const path = require('path');
   const moveFile = require('../utils/move-file');
+  const moveDependentFiles = require('../utils/move-dependent-files');
   const createAppExport = require('../utils/create-app-export');
 
   const modelPath = 'app/models';
@@ -38,14 +39,14 @@ module.exports.handler = async function handler(options) {
   const sourceModel = modelFolder
     ? `${modelPath}/${modelFolder}/${modelName}.js`
     : `${modelPath}/${modelName}.js`;
-  const destmodel = `${packagePath}/addon/models/${modelName}.js`;
+  const destModel = `${packagePath}/addon/models/${modelName}.js`;
 
   moveFile(
     Object.assign(
       {
         fileName: modelName,
         sourceFile: sourceModel,
-        destPath: destmodel,
+        destPath: destModel,
         fileType: 'Model',
       },
       options
@@ -83,4 +84,15 @@ module.exports.handler = async function handler(options) {
     destination,
     fileType: 'Model',
   });
+
+  // Move model dependent files that are imported
+  await moveDependentFiles(
+    Object.assign(
+      {
+        sourceFile: destModel,
+        destination,
+      },
+      options
+    )
+  );
 };

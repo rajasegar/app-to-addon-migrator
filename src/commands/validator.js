@@ -27,6 +27,7 @@ module.exports.builder = function builder(yargs) {
 module.exports.handler = async function handler(options) {
   const path = require('path');
   const moveFile = require('../utils/move-file');
+  const moveDependentFiles = require('../utils/move-dependent-files');
   const createAppExport = require('../utils/create-app-export');
 
   const { validatorName, destination, validatorFolder, dryRun } = options;
@@ -38,14 +39,14 @@ module.exports.handler = async function handler(options) {
   const sourceValidator = validatorFolder
     ? `${validatorPath}/${validatorFolder}/${validatorName}.js`
     : `${validatorPath}/${validatorName}.js`;
-  const destvalidator = `${packagePath}/addon/validators/${validatorName}.js`;
+  const destValidator = `${packagePath}/addon/validators/${validatorName}.js`;
 
   moveFile(
     Object.assign(
       {
         fileName: validatorName,
         sourceFile: sourceValidator,
-        destPath: destvalidator,
+        destPath: destValidator,
         fileType: 'Validator',
       },
       options
@@ -83,4 +84,15 @@ module.exports.handler = async function handler(options) {
     destination,
     fileType: 'Validator',
   });
+
+  // Move validator dependent files that are imported
+  await moveDependentFiles(
+    Object.assign(
+      {
+        sourceFile: destValidator,
+        destination,
+      },
+      options
+    )
+  );
 };

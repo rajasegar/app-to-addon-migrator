@@ -26,6 +26,7 @@ module.exports.builder = function builder(yargs) {
 module.exports.handler = async function handler(options) {
   const path = require('path');
   const moveFile = require('../utils/move-file');
+  const moveDependentFiles = require('../utils/move-dependent-files');
   const createAppExport = require('../utils/create-app-export');
 
   const { serviceName, destination, serviceFolder, dryRun } = options;
@@ -37,14 +38,14 @@ module.exports.handler = async function handler(options) {
   const sourceService = serviceFolder
     ? `${servicePath}/${serviceFolder}/${serviceName}.js`
     : `${servicePath}/${serviceName}.js`;
-  const destservice = `${packagePath}/addon/services/${serviceName}.js`;
+  const destService = `${packagePath}/addon/services/${serviceName}.js`;
 
   moveFile(
     Object.assign(
       {
         fileName: serviceName,
         sourceFile: sourceService,
-        destPath: destservice,
+        destPath: destService,
         fileType: 'Service',
       },
       options
@@ -83,4 +84,15 @@ module.exports.handler = async function handler(options) {
     destination,
     fileType: 'Service',
   });
+
+  // Move service dependent files that are imported
+  await moveDependentFiles(
+    Object.assign(
+      {
+        sourceFile: destService,
+        destination,
+      },
+      options
+    )
+  );
 };

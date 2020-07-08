@@ -28,7 +28,7 @@ module.exports.handler = async function handler(options) {
   const path = require('path');
 
   const moveFile = require('../utils/move-file');
-
+  const moveDependentFiles = require('../utils/move-dependent-files');
   const storagePath = 'app/storages';
   const { storageName, destination, storageFolder } = options;
   const packagePath = path.join('.', destination) || 'packages/engines';
@@ -37,15 +37,26 @@ module.exports.handler = async function handler(options) {
   const sourcestorage = storageFolder
     ? `${storagePath}/${storageFolder}/${storageName}.js`
     : `${storagePath}/${storageName}.js`;
-  const deststorage = `${packagePath}/app/storages/${storageName}.js`;
+  const destStorage = `${packagePath}/app/storages/${storageName}.js`;
 
   moveFile(
     Object.assign(
       {
         fileName: storageName,
         sourceFile: sourcestorage,
-        destPath: deststorage,
+        destPath: destStorage,
         fileType: 'Storage',
+      },
+      options
+    )
+  );
+
+  // Move storage dependent files that are imported
+  await moveDependentFiles(
+    Object.assign(
+      {
+        sourceFile: destStorage,
+        destination,
       },
       options
     )

@@ -17,6 +17,7 @@ QUnit.module('atam-cli', function (hooks) {
 
     hooks.afterEach(async function () {
       await fs.remove(path.join(FIXTURE_PATH, dest, 'addon/constants/sample.js'));
+      await fs.remove(path.join(FIXTURE_PATH, dest, 'app/constants/sample.js'));
     });
 
     QUnit.test('should move a constant', async function (assert) {

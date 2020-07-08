@@ -28,6 +28,7 @@ module.exports.builder = function builder(yargs) {
 module.exports.handler = async function handler(options) {
   const path = require('path');
   const moveFile = require('../utils/move-file');
+  const moveDependentFiles = require('../utils/move-dependent-files');
   const createAppExport = require('../utils/create-app-export');
 
   const constantPath = 'app/constants';
@@ -40,14 +41,14 @@ module.exports.handler = async function handler(options) {
   const sourceConstant = constantFolder
     ? `${constantPath}/${constantFolder}/${constantName}.js`
     : `${constantPath}/${constantName}.js`;
-  const destconstant = `${packagePath}/addon/constants/${constantName}.js`;
+  const destConstant = `${packagePath}/addon/constants/${constantName}.js`;
 
   moveFile(
     Object.assign(
       {
         fileName: constantName,
         sourceFile: sourceConstant,
-        destPath: destconstant,
+        destPath: destConstant,
         fileType: 'Constant',
       },
       options
@@ -67,4 +68,15 @@ module.exports.handler = async function handler(options) {
     destination,
     fileType: 'Constant',
   });
+
+  // Move constant dependent files that are imported
+  await moveDependentFiles(
+    Object.assign(
+      {
+        sourceFile: destConstant,
+        destination,
+      },
+      options
+    )
+  );
 };

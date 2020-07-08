@@ -31,9 +31,22 @@ QUnit.module('atam-cli', function (hooks) {
       await fs.remove(
         path.join(FIXTURE_PATH, dest, 'tests/integration/components/sample3-test.js')
       );
+
+      await fs.remove(path.join(FIXTURE_PATH, dest, 'addon/constants/sample2.js'));
+      await fs.remove(path.join(FIXTURE_PATH, dest, 'app/constants/sample2.js'));
     });
 
-    QUnit.test('should move a component', async function (assert) {
+    QUnit.test('should move a component vino', async function (assert) {
+      // Dependent constant file initial validation
+      let componentPath = path.join(FIXTURE_PATH, 'app/components/sample3/component.js');
+      let componentContent = fs.readFileSync(componentPath);
+      let componentContentAsString = componentContent.toString();
+      let oldConstantImportPath = 'company/constants/sample2';
+      let newConstantImportPath = '@company/dashboard/constants/sample2';
+
+      assert.ok(componentContentAsString.includes(oldConstantImportPath));
+      assert.notOk(componentContentAsString.includes(newConstantImportPath));
+
       const result = await execa(EXECUTABLE_PATH, ['component', 'sample3', dest], execOpts);
 
       assert.equal(result.exitCode, 0, 'exited with zero');
@@ -45,6 +58,13 @@ QUnit.module('atam-cli', function (hooks) {
           path.join(FIXTURE_PATH, dest, 'tests/integration/components/sample3-test.js')
         )
       );
+
+      // Dependent constant validation after update
+      assert.ok(fs.pathExistsSync(path.join(FIXTURE_PATH, dest, 'addon/constants/sample2.js')));
+      assert.ok(fs.pathExistsSync(path.join(FIXTURE_PATH, dest, 'app/constants/sample2.js')));
+      let updatedComponentContent = fs.readFileSync(componentPath);
+      assert.ok(updatedComponentContent.toString().includes(newConstantImportPath));
+      fs.writeFileSync(componentPath, componentContent.toString());
     });
 
     QUnit.test('should move a component without pods', async function (assert) {

@@ -27,6 +27,7 @@ module.exports.builder = function builder(yargs) {
 module.exports.handler = async function handler(options) {
   const path = require('path');
   const moveFile = require('../utils/move-file');
+  const moveDependentFiles = require('../utils/move-dependent-files');
 
   const { routeName, destination, routeFolder } = options;
 
@@ -123,6 +124,17 @@ module.exports.handler = async function handler(options) {
         sourceFile: sourceControllerTest,
         destPath: destControllerTest,
         fileType: 'Controller Test',
+      },
+      options
+    )
+  );
+
+  // Move route dependent files that are imported
+  await moveDependentFiles(
+    Object.assign(
+      {
+        sourceFile: destRoute,
+        destination,
       },
       options
     )

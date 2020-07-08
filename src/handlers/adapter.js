@@ -15,13 +15,13 @@ module.exports.handler = function (options) {
   const sourceAdapter = adapterFolder
     ? `${adapterPath}/${adapterFolder}/${adapterName}.js`
     : `${adapterPath}/${adapterName}.js`;
-  const destadapter = `${packagePath}/addon/adapters/${adapterName}.js`;
+  const destAdapter = `${packagePath}/addon/adapters/${adapterName}.js`;
 
   log(sourceAdapter);
-  log(destadapter);
+  log(destAdapter);
 
   if (!dryRun) {
-    fse.copySync(sourceAdapter, destadapter);
+    fse.copySync(sourceAdapter, destAdapter);
     ok(`Success: Adapter ${adapterName}.js copied`);
   }
 

@@ -2,7 +2,7 @@ import Component from '@ember/component';
 import layout from 'some_path';
 import { run } from '@ember/runloop';
 import { set } from '@ember/object';
-import sample from '../../constants/sample2';
+import sample from 'company/constants/sample2';
 
 export default Component.extend({
   classNames: ['page-wrapper'],

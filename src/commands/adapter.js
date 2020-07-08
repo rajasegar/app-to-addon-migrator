@@ -26,6 +26,7 @@ module.exports.builder = function builder(yargs) {
 module.exports.handler = async function handler(options) {
   const path = require('path');
   const moveFile = require('../utils/move-file');
+  const moveDependentFiles = require('../utils/move-dependent-files');
   const createAppExport = require('../utils/create-app-export');
 
   const { adapterName, destination, adapterFolder, dryRun } = options;
@@ -37,14 +38,14 @@ module.exports.handler = async function handler(options) {
   const sourceAdapter = adapterFolder
     ? `${adapterPath}/${adapterFolder}/${adapterName}.js`
     : `${adapterPath}/${adapterName}.js`;
-  const destadapter = `${packagePath}/addon/adapters/${adapterName}.js`;
+  const destAdapter = `${packagePath}/addon/adapters/${adapterName}.js`;
 
   moveFile(
     Object.assign(
       {
         fileName: adapterName,
         sourceFile: sourceAdapter,
-        destPath: destadapter,
+        destPath: destAdapter,
         fileType: 'Adapter',
       },
       options
@@ -83,4 +84,15 @@ module.exports.handler = async function handler(options) {
     destination,
     fileType: 'Adapter',
   });
+
+  // Move adapter dependent files that are imported
+  await moveDependentFiles(
+    Object.assign(
+      {
+        sourceFile: destAdapter,
+        destination,
+      },
+      options
+    )
+  );
 };

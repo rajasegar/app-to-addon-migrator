@@ -10,6 +10,7 @@ const CODEMOD_EXEC_PATH = path.join(PROJECT_ROOT, 'bin', 'atam-codemod-cli.js');
 
 const moveFile = require('./move-file');
 const createAppExport = require('./create-app-export');
+const moveDependentFiles = require('./move-dependent-files');
 
 module.exports = async function (options) {
   const componentPath = 'app/components';
@@ -123,4 +124,15 @@ module.exports = async function (options) {
     destination,
     fileType: 'Component',
   });
+
+  // Move component dependent files that are imported
+  await moveDependentFiles(
+    Object.assign(
+      {
+        sourceFile: destComponent,
+        destination,
+      },
+      options
+    )
+  );
 };

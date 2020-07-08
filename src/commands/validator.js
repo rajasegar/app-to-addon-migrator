@@ -41,7 +41,7 @@ module.exports.handler = async function handler(options) {
     : `${validatorPath}/${validatorName}.js`;
   const destValidator = `${packagePath}/addon/validators/${validatorName}.js`;
 
-  moveFile(
+  await moveFile(
     Object.assign(
       {
         fileName: validatorName,

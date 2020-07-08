@@ -44,7 +44,7 @@ module.exports.handler = async function handler(options) {
     : `${routePath}/${routeName}.js`;
   const destRoute = `${packagePath}/addon/routes/${routeName}.js`;
 
-  moveFile(
+  await moveFile(
     Object.assign(
       {
         fileName: routeName,

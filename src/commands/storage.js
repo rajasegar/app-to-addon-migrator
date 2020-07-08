@@ -39,7 +39,7 @@ module.exports.handler = async function handler(options) {
     : `${storagePath}/${storageName}.js`;
   const destStorage = `${packagePath}/app/storages/${storageName}.js`;
 
-  moveFile(
+  await moveFile(
     Object.assign(
       {
         fileName: storageName,

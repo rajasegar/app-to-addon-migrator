@@ -40,7 +40,7 @@ module.exports.handler = async function handler(options) {
     : `${helperPath}/${helperName}.js`;
   const destHelper = `${packagePath}/addon/helpers/${helperName}.js`;
 
-  moveFile(
+  await moveFile(
     Object.assign(
       {
         fileName: helperName,

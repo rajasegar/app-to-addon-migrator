@@ -4,7 +4,7 @@ const fs = require('fs');
 const execa = require('execa');
 const path = require('path');
 
-const { log } = require('./logging');
+const { log, error } = require('./logging');
 const { getParser } = require('codemod-cli').jscodeshift;
 const jscodeshift = require('jscodeshift');
 
@@ -33,28 +33,34 @@ const getDependentsList = (j, root, appPrefix) => {
 module.exports = async function (options) {
   let { sourceFile, destination, dryRun = false, deleteSource, skipTests } = options;
 
-  const source = fs.readFileSync(sourceFile);
-  const root = j(source.toString());
-  const packageFile = fs.readFileSync('package.json');
-  const { name: appPrefix } = JSON.parse(packageFile);
+  return fs.readFile(sourceFile, function (err, source) {
+    if (err) {
+      error('sourceFile read error', err);
+      return null;
+    }
 
-  let dependentsList = getDependentsList(j, root, appPrefix);
+    const root = j(source.toString());
+    const packageFile = fs.readFileSync('package.json');
+    const { name: appPrefix } = JSON.parse(packageFile);
 
-  log('Dependent files', dependentsList);
-  log(destination);
+    let dependentsList = getDependentsList(j, root, appPrefix);
 
-  return dependentsList.forEach(({ type, entityPath }) => {
-    log('Moving dependent', type, entityPath);
-    return execa(ATAM_EXEC_PATH, [
-      type,
-      entityPath,
-      destination,
-      '--dry-run',
-      dryRun,
-      '--skip-tests',
-      skipTests,
-      '--delete-source',
-      deleteSource,
-    ]);
+    log('Dependent files', dependentsList);
+    log(destination);
+
+    return dependentsList.forEach(({ type, entityPath }) => {
+      log('Moving dependent', type, entityPath);
+      return execa(ATAM_EXEC_PATH, [
+        type,
+        entityPath,
+        destination,
+        '--dry-run',
+        dryRun,
+        '--skip-tests',
+        skipTests,
+        '--delete-source',
+        deleteSource,
+      ]);
+    });
   });
 };

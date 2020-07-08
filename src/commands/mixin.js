@@ -40,7 +40,7 @@ module.exports.handler = async function handler(options) {
     : `${mixinPath}/${mixinName}.js`;
   const destMixin = `${packagePath}/addon/mixins/${mixinName}.js`;
 
-  moveFile(
+  await moveFile(
     Object.assign(
       {
         fileName: mixinName,

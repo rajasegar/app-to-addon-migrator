@@ -40,7 +40,7 @@ module.exports.handler = async function handler(options) {
     : `${utilPath}/${utilName}.js`;
   const destUtil = `${packagePath}/addon/utils/${utilName}.js`;
 
-  moveFile(
+  await moveFile(
     Object.assign(
       {
         fileName: utilName,

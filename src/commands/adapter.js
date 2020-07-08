@@ -40,7 +40,7 @@ module.exports.handler = async function handler(options) {
     : `${adapterPath}/${adapterName}.js`;
   const destAdapter = `${packagePath}/addon/adapters/${adapterName}.js`;
 
-  moveFile(
+  await moveFile(
     Object.assign(
       {
         fileName: adapterName,

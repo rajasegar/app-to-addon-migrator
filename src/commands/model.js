@@ -41,7 +41,7 @@ module.exports.handler = async function handler(options) {
     : `${modelPath}/${modelName}.js`;
   const destModel = `${packagePath}/addon/models/${modelName}.js`;
 
-  moveFile(
+  await moveFile(
     Object.assign(
       {
         fileName: modelName,

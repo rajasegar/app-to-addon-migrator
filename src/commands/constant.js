@@ -43,7 +43,7 @@ module.exports.handler = async function handler(options) {
     : `${constantPath}/${constantName}.js`;
   const destConstant = `${packagePath}/addon/constants/${constantName}.js`;
 
-  moveFile(
+  await moveFile(
     Object.assign(
       {
         fileName: constantName,

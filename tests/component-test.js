@@ -36,7 +36,7 @@ QUnit.module('atam-cli', function (hooks) {
       await fs.remove(path.join(FIXTURE_PATH, dest, 'app/constants/sample2.js'));
     });
 
-    QUnit.test('should move a component vino', async function (assert) {
+    QUnit.test('should move a component', async function (assert) {
       // Dependent constant file initial validation
       let componentPath = path.join(FIXTURE_PATH, 'app/components/sample3/component.js');
       let componentContent = fs.readFileSync(componentPath);

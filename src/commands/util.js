@@ -34,7 +34,7 @@ module.exports.handler = async function handler(options) {
   const packagePath = path.join('.', destination) || 'packages/engines';
 
   // Moving util.js
-  const sourceutil = utilFolder
+  const sourceUtil = utilFolder
     ? `${utilPath}/${utilFolder}/${utilName}.js`
     : `${utilPath}/${utilName}.js`;
   const destutil = `${packagePath}/addon/utils/${utilName}.js`;
@@ -43,7 +43,7 @@ module.exports.handler = async function handler(options) {
     Object.assign(
       {
         fileName: utilName,
-        sourceFile: sourceutil,
+        sourceFile: sourceUtil,
         destPath: destutil,
         fileType: 'Util',
       },
@@ -73,6 +73,7 @@ module.exports.handler = async function handler(options) {
 
   createAppExport({
     fileName: utilName,
+    sourceFile: sourceUtil,
     fileOptions: {
       ext: 'js',
       type: 'utils',

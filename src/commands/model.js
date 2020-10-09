@@ -35,7 +35,7 @@ module.exports.handler = async function handler(options) {
   const packagePath = path.join('.', destination) || 'packages/engines';
 
   // Moving model.js
-  const sourcemodel = modelFolder
+  const sourceModel = modelFolder
     ? `${modelPath}/${modelFolder}/${modelName}.js`
     : `${modelPath}/${modelName}.js`;
   const destmodel = `${packagePath}/addon/models/${modelName}.js`;
@@ -44,7 +44,7 @@ module.exports.handler = async function handler(options) {
     Object.assign(
       {
         fileName: modelName,
-        sourceFile: sourcemodel,
+        sourceFile: sourceModel,
         destPath: destmodel,
         fileType: 'Model',
       },
@@ -73,6 +73,7 @@ module.exports.handler = async function handler(options) {
   // Create model assets to app folder in addon
   createAppExport({
     fileName: modelName,
+    sourceFile: sourceModel,
     fileOptions: {
       ext: 'js',
       type: 'models',

@@ -1,0 +1,4 @@
+{
+  "oldImportPath": "/utils/time-util",
+  "newImportPath": "@company/common-addon/utils/time-util"
+}

@@ -34,7 +34,7 @@ module.exports.handler = async function handler(options) {
   const packagePath = path.join('.', destination) || 'packages/engines';
 
   // Moving service.js
-  const sourceservice = serviceFolder
+  const sourceService = serviceFolder
     ? `${servicePath}/${serviceFolder}/${serviceName}.js`
     : `${servicePath}/${serviceName}.js`;
   const destservice = `${packagePath}/addon/services/${serviceName}.js`;
@@ -43,7 +43,7 @@ module.exports.handler = async function handler(options) {
     Object.assign(
       {
         fileName: serviceName,
-        sourceFile: sourceservice,
+        sourceFile: sourceService,
         destPath: destservice,
         fileType: 'Service',
       },
@@ -73,6 +73,7 @@ module.exports.handler = async function handler(options) {
 
   createAppExport({
     fileName: serviceName,
+    sourceFile: sourceService,
     fileOptions: {
       ext: 'js',
       type: 'services',

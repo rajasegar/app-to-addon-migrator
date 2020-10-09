@@ -113,6 +113,7 @@ module.exports = async function (options) {
   // Create component assets to app folder in addon
   createAppExport({
     fileName: componentName,
+    sourceFile: sourceComponent,
     fileOptions: {
       ext: 'js',
       type: 'components',

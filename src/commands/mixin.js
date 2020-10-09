@@ -27,13 +27,14 @@ module.exports.builder = function builder(yargs) {
 module.exports.handler = async function handler(options) {
   const path = require('path');
   const moveFile = require('../utils/move-file');
+  const createAppExport = require('../utils/create-app-export');
 
   const mixinPath = 'app/mixins';
-  const { mixinFolder, mixinName, destination } = options;
+  const { mixinFolder, mixinName, destination, dryRun } = options;
   const packagePath = path.join('.', destination) || 'packages/engines';
 
   // Moving mixin.js
-  const sourcemixin = mixinFolder
+  const sourceMixin = mixinFolder
     ? `${mixinPath}/${mixinFolder}/${mixinName}.js`
     : `${mixinPath}/${mixinName}.js`;
   const destmixin = `${packagePath}/addon/mixins/${mixinName}.js`;
@@ -42,7 +43,7 @@ module.exports.handler = async function handler(options) {
     Object.assign(
       {
         fileName: mixinName,
-        sourceFile: sourcemixin,
+        sourceFile: sourceMixin,
         destPath: destmixin,
         fileType: 'Mixin',
       },
@@ -67,4 +68,19 @@ module.exports.handler = async function handler(options) {
       options
     )
   );
+
+  // Create constant assets to app folder in addon
+
+  createAppExport({
+    fileName: mixinName,
+    sourceFile: sourceMixin,
+    fileOptions: {
+      ext: 'js',
+      type: 'mixins',
+    },
+    dryRun,
+    packagePath,
+    destination,
+    fileType: 'Mixin',
+  });
 };

@@ -1,19 +1,18 @@
 import Component from '@ember/component';
-import layout from 'some_path';
 import { run } from '@ember/runloop';
 import { set } from '@ember/object';
-import sample from '../../constants/sample2';
+import TimeUtil from 'host-app-path/utils/time-util';
 
 export default Component.extend({
-  classNames: ['page-wrapper'],
-  sample,
-  layout: layout,
+  classNames: ['__page-layout__page-wrapper'],
   classNameBindings: ['sidebarEnabled:sidebar-present'],
   sidebarEnabled: false,
   contentSidebarEnabled: false,
 
   didRender() {
     this._super(...arguments);
+    TimeUtil.getTime();
+    this.interactivityTracking.trackOnce('FirstWrapperRender');
   },
 
   actions: {

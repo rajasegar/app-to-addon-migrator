@@ -37,7 +37,7 @@ module.exports.handler = async function handler(options) {
   const packagePath = path.join('.', destination) || 'packages/engines';
 
   // Moving constant.js
-  const sourceconstant = constantFolder
+  const sourceConstant = constantFolder
     ? `${constantPath}/${constantFolder}/${constantName}.js`
     : `${constantPath}/${constantName}.js`;
   const destconstant = `${packagePath}/addon/constants/${constantName}.js`;
@@ -46,7 +46,7 @@ module.exports.handler = async function handler(options) {
     Object.assign(
       {
         fileName: constantName,
-        sourceFile: sourceconstant,
+        sourceFile: sourceConstant,
         destPath: destconstant,
         fileType: 'Constant',
       },
@@ -57,6 +57,7 @@ module.exports.handler = async function handler(options) {
 
   createAppExport({
     fileName: constantName,
+    sourceFile: sourceConstant,
     fileOptions: {
       ext: 'js',
       type: 'constants',

@@ -35,7 +35,7 @@
   "license": "MIT",
   "dependencies": {
     "chalk": "^4.0.0",
-    "codemod-cli": "^2.1.0",
+    "codemod-cli": "^3.0.0",
     "ember-template-recast": "^4.1.4",
     "fs-extra": "^9.0.0",
     "fuzzy": "^0.1.3",

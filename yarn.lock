@@ -2523,14 +2523,15 @@ code-point-at@^1.0.0:
   resolved "https://registry.yarnpkg.com/code-point-at/-/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
   integrity sha1-DQcLTQQ6W+ozovGkDi7bPZpMz3c=
 
-codemod-cli@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/codemod-cli/-/codemod-cli-2.1.0.tgz#c42f08b73bff3aba3b6c4db83ef8afbfec51afe8"
-  integrity sha512-aUhTsDYjYderONZr8VK/89vfhwAsm+6NI6AodoB0QVTU0crg/rc3W+jmRujXfNepRPzFW1iDRlYP5up3ek2S4Q==
+codemod-cli@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/codemod-cli/-/codemod-cli-3.0.0.tgz#d590f382a102a1edc6080ede67896c533749a81e"
+  integrity sha512-oZOkKcpHSNaLHkdhwp+1PDXzWTzx+5rkbc3TGCHnZg/tAtDGNlSU+24zkzTMm31+XxAxqt3Da323UZKxudWRBw==
   dependencies:
     "@babel/parser" "^7.6.0"
     chalk "^2.4.2"
     common-tags "^1.8.0"
+    ember-template-recast "^4.1.4"
     execa "^2.0.4"
     fs-extra "^8.1.0"
     globby "^10.0.1"
